@@ -19,6 +19,8 @@
 
 package com.baidu.hugegraph.util;
 
+import com.baidu.hugegraph.logger.HugeGraphLogger;
+import com.baidu.hugegraph.logger.HugeGraphLoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,5 +32,13 @@ public final class Log {
 
     public static Logger logger(Class<?> clazz) {
         return LoggerFactory.getLogger(clazz);
+    }
+
+    public static HugeGraphLogger formattedLogger(String name) {
+        return HugeGraphLoggerFactory.getLogger(name);
+    }
+
+    public static HugeGraphLogger formattedLogger(Class<?> clazz) {
+        return HugeGraphLoggerFactory.getLogger(clazz);
     }
 }
