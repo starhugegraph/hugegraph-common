@@ -16,32 +16,10 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-
-package com.baidu.hugegraph.util;
-
-import com.baidu.hugegraph.logger.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+package com.baidu.hugegraph.logger;
 
 /**
- * General Logger compulsory class
+ * This interface is a type constraint the limits the use of MethodLoggers
  */
-public final class Log {
-
-    public static Logger logger(String name) {
-        return LoggerFactory.getLogger(name);
-    }
-
-    public static Logger logger(Class<?> clazz) {
-        return LoggerFactory.getLogger(clazz);
-    }
-
-    /**
-     * Template level logger
-     * @param clazz Class of caller
-     * @return Logger of corresponding caller class
-     */
-    public static HugeGraphLogger getLogger(Class<?> clazz) {
-        return HugeGraphLoggerFactory.getLogger(clazz);
-    }
+public interface GraphLogLevel {
 }

@@ -16,47 +16,39 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+
 package com.baidu.hugegraph.logger;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
- * HugeGraphLogger is used to extend slf4j logger using formatted templates
- * @since 2021-11-26
+ * Encapsulation class of typed method loggers and corresponding templates
  */
-public class HugeGraphLogger  {
+public class HugeGraphLogger {
 
-    /**
-     * slf4j logger with same name
-     */
-    private final Logger logger;
+    private final MethodLogger<MethodLogger.LevelTrace> traceLogger;
+    private final MethodLogger<MethodLogger.LevelDebug> debugLogger;
+    private final MethodLogger<MethodLogger.LevelInfo> infoLogger;
+    private final MethodLogger<MethodLogger.LevelWarn> warnLogger;
+    private final MethodLogger<MethodLogger.LevelError> errorLogger;
 
-    private HugeGraphLogger() {
-        this.logger = LoggerFactory.getLogger(this.getClass());
+
+    public HugeGraphLogger(Class<?> clazz) {
+        traceLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelTrace.class, clazz);
+        debugLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelDebug.class, clazz);
+        infoLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelInfo.class, clazz);
+        warnLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelWarn.class, clazz);
+        errorLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelError.class, clazz);
     }
 
-    public HugeGraphLogger(String name) {
-        this.logger = LoggerFactory.getLogger(name);
+    public void logApiAccess(String method, String url, Long requestTime) {
+        infoLogger.generalLogMessage(LogTemplate.ACCESS_LOG, method, url, requestTime);
     }
 
-    public void trace(LogTemplate template, Object ...args) {
-        logger.trace(template.getContent(), args);
+    public void logRestServerStart() {
+        infoLogger.generalLogMessage(LogTemplate.START_REST_SERVER);
     }
 
-    public void debug(LogTemplate template, Object ...args) {
-        logger.debug(template.getContent(), args);
+    public void logServerShutdown() {
+
     }
 
-    public void info(LogTemplate template, Object ...args) {
-        logger.info(template.getContent(), args);
-    }
-
-    public void warn(LogTemplate template, Object ...args) {
-        logger.warn(template.getContent(), args);
-    }
-
-    public void error(LogTemplate template, Object ...args) {
-        logger.error(template.getContent(), args);
-    }
 }

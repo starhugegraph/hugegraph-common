@@ -28,7 +28,8 @@ import java.util.Map;
  */
 public enum LogTemplate {
     UNKNOWN("UNKNOWN", ""),
-    ACCESS_LOG("ACCESS_LOG", "{} {}"),
+    ACCESS_LOG("ACCESS_LOG",
+            "{} /{} Status: {} - user: {} {} - roles: {} in {} ms"),
     START_REST_SERVER("START_REST_SERVER", "restServer has been initialized!"),
     ;
     private String name;
@@ -39,15 +40,16 @@ public enum LogTemplate {
         this.content = content;
     }
 
-    private static final Map<String, LogTemplate> templateMap = new HashMap<>();
+    private static final Map<String, LogTemplate> TEMPLATE_MAP
+            = new HashMap<>();
     static {
         for (LogTemplate template : LogTemplate.values()) {
-            templateMap.computeIfAbsent(template.name, v -> template);
+            TEMPLATE_MAP.computeIfAbsent(template.name, v -> template);
         }
     }
 
     public static LogTemplate getByName(String name) {
-        return templateMap.getOrDefault(name, LogTemplate.UNKNOWN);
+        return TEMPLATE_MAP.getOrDefault(name, LogTemplate.UNKNOWN);
     }
 
     public String getContent() {
