@@ -24,19 +24,49 @@ package com.baidu.hugegraph.logger;
  */
 public class HugeGraphLogger {
 
+    private final Class<?> targetType;
+
     private final MethodLogger<MethodLogger.LevelTrace> traceLogger;
     private final MethodLogger<MethodLogger.LevelDebug> debugLogger;
     private final MethodLogger<MethodLogger.LevelInfo> infoLogger;
     private final MethodLogger<MethodLogger.LevelWarn> warnLogger;
     private final MethodLogger<MethodLogger.LevelError> errorLogger;
 
-
+    /**
+     * Initialize logger with given type
+     * @param clazz type of caller class
+     */
     public HugeGraphLogger(Class<?> clazz) {
-        traceLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelTrace.class, clazz);
-        debugLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelDebug.class, clazz);
-        infoLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelInfo.class, clazz);
-        warnLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelWarn.class, clazz);
-        errorLogger = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelError.class, clazz);
+
+        this.targetType = clazz;
+
+        traceLogger = MethodLoggerFactory
+                .getMethodLogger(MethodLogger.LevelTrace.class, clazz);
+
+        debugLogger = MethodLoggerFactory
+                .getMethodLogger(MethodLogger.LevelDebug.class, clazz);
+
+        infoLogger = MethodLoggerFactory
+                .getMethodLogger(MethodLogger.LevelInfo.class, clazz);
+
+        warnLogger = MethodLoggerFactory
+                .getMethodLogger(MethodLogger.LevelWarn.class, clazz);
+
+        errorLogger = MethodLoggerFactory
+                .getMethodLogger(MethodLogger.LevelError.class, clazz);
+    }
+
+    /**
+     * Allow alternate level
+     * @param level customized level
+     * @param template LogTemplate
+     * @param args Corresponding args
+     * @param <T> Level Type
+     */
+    public <T extends GraphLogLevel> void log(Class<T> level, LogTemplate template, Object ...args) {
+        MethodLoggerFactory
+                .getMethodLogger(level, this.targetType)
+                .generalLogMessage(template, args);
     }
 
     public void logApiAccess(String method, String url, Long requestTime) {
