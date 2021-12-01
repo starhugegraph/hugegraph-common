@@ -21,8 +21,6 @@ package com.baidu.hugegraph.util;
 
 import com.baidu.hugegraph.logger.HugeGraphLoggerFactory;
 import com.baidu.hugegraph.logger.HugeGraphLogger;
-import com.baidu.hugegraph.logger.LogTemplate;
-import com.baidu.hugegraph.logger.MethodLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,11 +44,5 @@ public final class Log {
      */
     public static HugeGraphLogger getLogger(Class<?> clazz) {
         return HugeGraphLoggerFactory.getLogger(clazz);
-    }
-
-    void testLog() {
-        HugeGraphLogger logger = HugeGraphLoggerFactory.getLogger(this.getClass());
-        LogTemplate template = LogTemplate.ACCESS_LOG;
-        logger.log(MethodLogger.LevelError.class, template, "s1", "s2");
     }
 }
