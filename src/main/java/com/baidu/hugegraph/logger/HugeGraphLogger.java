@@ -38,6 +38,7 @@ public class HugeGraphLogger {
      */
     public HugeGraphLogger(Class<?> clazz) {
 
+        // which class the logger bind to
         this.targetType = clazz;
 
         traceLogger = MethodLoggerFactory
@@ -79,6 +80,10 @@ public class HugeGraphLogger {
 
     public void logServerShutdown() {
 
+    }
+
+    public void accumulateVerticesImport(Object ...args) {
+        AccumulationLogger.accumulateAccess(this.targetType, LogTemplate.IMPORT_VERTEX, args);
     }
 
 }

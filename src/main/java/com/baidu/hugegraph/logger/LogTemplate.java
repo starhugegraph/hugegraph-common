@@ -31,13 +31,22 @@ public enum LogTemplate {
     ACCESS_LOG("ACCESS_LOG",
             "{} /{} Status: {} - user: {} {} - roles: {} in {} ms"),
     START_REST_SERVER("START_REST_SERVER", "restServer has been initialized!"),
+    IMPORT_VERTEX("IMPORT_VERTEX", "Import vertex {}");
     ;
-    private String name;
-    private String content;
+    private final String name;
+    private final String content;
+    private final Integer threshold;
 
     LogTemplate(String name, String content) {
         this.name = name;
         this.content = content;
+        this.threshold = 0;
+    }
+
+    LogTemplate(String name, String content, Integer threshold) {
+        this.name = name;
+        this.content = content;
+        this.threshold = threshold;
     }
 
     private static final Map<String, LogTemplate> TEMPLATE_MAP
@@ -55,4 +64,6 @@ public enum LogTemplate {
     public String getContent() {
         return this.content;
     }
+
+    public Integer getThreshold() { return this.threshold; }
 }
