@@ -20,9 +20,11 @@
 package com.baidu.hugegraph.logger;
 
 import javax.inject.Singleton;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Accumulation Logger is used accumulate the access count of certain template
@@ -31,21 +33,28 @@ import java.util.Optional;
 @Singleton
 public class AccumulationLogger {
 
-    private static final Map<String, Integer> logMap = new HashMap<>();
+    private static final Map<String, Integer> logMap = new ConcurrentHashMap<>();
+
+    /**
+     * Internal thread pool
+     */
+    private static final ExecutorService THREAD_POOL
+            = Executors.newFixedThreadPool(1);
 
     public static void accumulateAccess(Class<?> clazz, LogTemplate template, Object ... args) {
-
-        String key = clazz.toString() + template.toString();
-        logMap.computeIfAbsent(key, k -> 0);
-        Integer current =
-                Optional
-                        .ofNullable(logMap.computeIfPresent(key, (k, v) -> v + 1))
-                        .orElse(0);
-        if (current >= template.getThreshold()) {
-            MethodLogger<MethodLogger.LevelInfo> logger
-                = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelInfo.class, clazz);
-            logger.generalLogMessage(template, args);
-            logMap.remove(key);
-        }
+        THREAD_POOL.submit(() -> {
+            String key = clazz.toString() + template.toString();
+            logMap.computeIfAbsent(key, k -> 0);
+            Integer current =
+                    Optional
+                            .ofNullable(logMap.computeIfPresent(key, (k, v) -> v + 1))
+                            .orElse(0);
+            if (current >= template.getThreshold()) {
+                MethodLogger<MethodLogger.LevelInfo> logger
+                        = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelInfo.class, clazz);
+                logger.generalLogMessage(template, args);
+                logMap.remove(key);
+            }
+        });
     }
 }
