@@ -58,6 +58,17 @@ public class HugeConfig extends PropertiesConfiguration {
         this(loadConfigFile(configFile));
     }
 
+    public HugeConfig(Map<String, Object> propertyMap) {
+        if (propertyMap == null) {
+            throw new ConfigException("The property map is null");
+        }
+
+        for (Map.Entry<String, Object> kv : propertyMap.entrySet()) {
+            this.addProperty(kv.getKey(), kv.getValue());
+        }
+        this.checkRequiredOptions();
+    }
+
     private void reloadIfNeed(Configuration conf) {
         if (!(conf instanceof AbstractFileConfiguration)) {
             if (conf instanceof AbstractConfiguration) {

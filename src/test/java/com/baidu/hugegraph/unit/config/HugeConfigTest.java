@@ -337,6 +337,49 @@ public class HugeConfigTest extends BaseUnitTest {
     }
 
     @Test
+    public void testHugeConfigWithMap() throws Exception {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(TestOptions.text1.name(), "oneValue");
+        properties.put(TestOptions.int1.name(), 2);
+        properties.put(TestOptions.long1.name(), 99L);
+        properties.put(TestOptions.float1.name(), 66.0f);
+        properties.put(TestOptions.double1.name(), 66.0f);
+        properties.put(TestOptions.bool.name(), false);
+        properties.put(TestOptions.clazz.name(), String.class);
+        properties.put(TestOptions.list.name(), Arrays.asList("file-v1",
+                                                               "file-v2",
+                                                               "file-v3"));
+        properties.put(TestOptions.map.name(),
+                       ImmutableMap.of("key1", "value1", "key3", "value3"));
+        properties.put(TestOptions.weekday.name(), WeekDay.SUNDAY);
+        properties.put(TestOptions.weekdays.name(),
+                       Arrays.asList(WeekDay.SATURDAY, WeekDay.FRIDAY));
+
+        HugeConfig config = new HugeConfig(properties);
+        Assert.assertEquals("oneValue", config.get(TestOptions.text1));
+
+        Assert.assertEquals(2, (int) config.get(TestOptions.int1));
+        Assert.assertEquals(99L, (long) config.get(TestOptions.long1));
+
+        Assert.assertEquals(66.0f, config.get(TestOptions.float1), 0f);
+        Assert.assertEquals(66.0f, config.get(TestOptions.double1), 0d);
+
+        Assert.assertEquals(false, config.get(TestOptions.bool));
+
+        Assert.assertEquals(String.class, config.get(TestOptions.clazz));
+
+        Assert.assertEquals(Arrays.asList("file-v1", "file-v2", "file-v3"),
+                            config.get(TestOptions.list));
+
+        Assert.assertEquals(ImmutableMap.of("key1", "value1", "key3", "value3"),
+                            config.getMap(TestOptions.map));
+
+        Assert.assertEquals(WeekDay.SUNDAY, config.get(TestOptions.weekday));
+        Assert.assertEquals(Arrays.asList(WeekDay.SATURDAY, WeekDay.FRIDAY),
+                            config.get(TestOptions.weekdays));
+    }
+
+    @Test
     public void testHugeConfigWithConfiguration() throws Exception {
         HugeConfig config = new HugeConfig(new PropertiesConfiguration(CONF));
 
