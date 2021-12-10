@@ -369,14 +369,14 @@ public class HugeConfigTest extends BaseUnitTest {
         Assert.assertEquals(String.class, config.get(TestOptions.clazz));
 
         Assert.assertEquals(Arrays.asList("file-v1", "file-v2", "file-v3"),
-                config.get(TestOptions.list));
+                            config.get(TestOptions.list));
 
         Assert.assertEquals(ImmutableMap.of("key1", "value1", "key3", "value3"),
-                config.getMap(TestOptions.map));
+                            config.getMap(TestOptions.map));
 
         Assert.assertEquals(WeekDay.SUNDAY, config.get(TestOptions.weekday));
         Assert.assertEquals(Arrays.asList(WeekDay.SATURDAY, WeekDay.FRIDAY),
-                config.get(TestOptions.weekdays));
+                            config.get(TestOptions.weekdays));
     }
 
     @Test
