@@ -27,11 +27,82 @@ import java.util.Map;
  * @since 2021-11-25
  */
 public enum LogTemplate {
+
+    /* General Log Templates */
     UNKNOWN("UNKNOWN", ""),
     ACCESS_LOG("ACCESS_LOG",
             "{} /{} Status: {} - user: {} {} - roles: {} in {} ms"),
     START_REST_SERVER("START_REST_SERVER", "restServer has been initialized!"),
-    IMPORT_VERTEX("IMPORT_VERTEX", "Import vertex {}");
+    SERVER_DOWN("SERVER_DOWN", "Hugegraph Server Down!"),
+    IMPORT_VERTEX("IMPORT_VERTEX", "Import vertex {}"),
+
+    /**** User related logs ****/
+
+    /* User Management */
+    CREATE_USER("CREATE_USER", "New user has been created"),
+    UPDATE_USER("UPDATE_USER", "User has been updated {}"),
+    DELETE_USER("DELETE_USER", "User has been deleted {}"),
+
+    /* Group Management */
+    CREATE_GROUP("CREATE_GROUP", "New group has been created"),
+    UPDATE_GROUP("UPDATE_GROUP", "Group has been updated {}"),
+    DELETE_GROUP("DELETE_GROUP", "Group has been deleted {}"),
+
+    /* Role Management */
+    CREATE_ROLE("CREATE_ROLE", "New role has been created"),
+    UPDATE_ROLE("UPDATE_ROLE", "Role has been updated {}"),
+    DELETE_ROLE("DELETE_ROLE", "Role has been deleted {}"),
+    CREATE_REF_ROLE("CREATE_REF_ROLE", "R"),
+    UPDATE_REF_ROLE("UPDATE_REF_ROLE", ""),
+    DELETE_REF_ROLE("DELETE_REF_ROLE", ""),
+    EXPORT_ROLE("EXPORT_ROLE", ""),
+
+    /* Password Management */
+    UPDATE_PASSWORD("UPDATE_PASSWORD", "User {} has changed password"),
+    RESET_PASSWORD("RESET_PASSWORD", "User {} has reset password"),
+
+    /* Authorization Management */
+    USER_LOGIN("USER_LOGIN", "User {} has been logged in via {}"),
+    USER_LOGOUT("USER_LOGOUT", "User {} has been logged out"),
+    USER_DISPOSE("USER_DISPOSE", "User {} has been disposed"),
+    USER_LOCK("USER_LOCK", "User {} has been locked"),
+    USER_UNLOCK("USER_UNLOCK", "User {} has been unlocked"),
+    GENERATE_AUTH_KEY("GENERATE_AUTH_KEY", "User {} has generated new auth key"),
+
+    /* User Group Management */
+    CREATE_USER_GROUP("CREATE_USER_GROUP", "New user group has been created"),
+    UPDATE_USER_GROUP("UPDATE_USER_GROUP", "User group has been updated {}"),
+    DELETE_USER_GROUP("DELETE_USER_GROUP", "User group has been deleted {}"),
+
+    /**** Tenant related logs ****/
+    /* Tenant management */
+    UPDATE_TENANT_CONFIG("UPDATE_TENANT_CONFIG", "Tenant {} config has been updated"),
+    CREATE_TENANT("CREATE_TENANT", "Tenant {} has been created"),
+    UPDATE_TENANT("UPDATE_TENANT", "Tenant {} has been updated"),
+    REMOVE_TENANT("REMOVE_TENANT", "Tenant {} has been removed"),
+
+    /**** Cluster related logs ****/
+    SYNC_CLUSTER_CONFIG("SYNC_CLUSTER_CONFIG", "Cluster {} config sync"),
+    SYNC_OPS_COMMAND("SYNC_OPS_COMMAND", "Process synchronize ops command "),
+    ASYNC_OPS_COMMAND("ASYNC_OPS_COMMAND", "Process asynchronize ops command"),
+    IMPORT_CERT_LICENCE("IMPORT_CERT_LICENCE", "Import cert licence"),
+
+    /**** Service related logs ****/
+    ADD_SERVICE("ADD_SERVICE", "Service {} has been added from instance"),
+    REMOVE_SERVICE("REMOVE_SERVICE", "Service {} has been removed from instance"),
+    START_SERVICE("START_SERVICE", "Service {} has been started"),
+    STOP_SERVICE("STOP_SERVICE", "Service {} has been stopped"),
+    RESTART_SERVICE("RESTART_SERVICE", "Service {} has been restarted"),
+    SYNC_SERVICE_CONFIG("SYNC_SERVICE_CONFIG", "Service {} config has been synchronized"),
+
+
+    /**** Instance related logs ****/
+
+    /**** Host related logs ****/
+
+    /**** Operation logs ****/
+
+
     ;
     private final String name;
     private final String content;

@@ -64,14 +64,16 @@ public class HugeGraphLogger {
      * @param args Corresponding args
      * @param <T> Level Type
      */
-    public <T extends GraphLogLevel> void log(Class<T> level, LogTemplate template, Object ...args) {
+    public <T extends GraphLogLevel>
+        void log(Class<T> level, LogTemplate template, Object ...args) {
         MethodLoggerFactory
                 .getMethodLogger(level, this.targetType)
                 .generalLogMessage(template, args);
     }
 
     public void logApiAccess(String method, String url, Long requestTime) {
-        infoLogger.generalLogMessage(LogTemplate.ACCESS_LOG, method, url, requestTime);
+        infoLogger.generalLogMessage(
+                LogTemplate.ACCESS_LOG, method, url, requestTime);
     }
 
     public void logRestServerStart() {
@@ -79,7 +81,8 @@ public class HugeGraphLogger {
     }
 
     public void logServerShutdown() {
-
+        warnLogger.generalLogMessage(
+                LogTemplate.SERVER_DOWN);
     }
 
     public void accumulateVerticesImport(Object ...args) {
