@@ -26,9 +26,6 @@ import com.baidu.hugegraph.testutil.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  * Test Method Logger and Factory
  * @since 2021-11-30

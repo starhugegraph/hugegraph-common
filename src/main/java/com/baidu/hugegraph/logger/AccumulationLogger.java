@@ -33,7 +33,8 @@ import java.util.concurrent.Executors;
 @Singleton
 public class AccumulationLogger {
 
-    private static final Map<String, Integer> logMap = new ConcurrentHashMap<>();
+    private static final Map<String, Integer> LOG_MAP
+            = new ConcurrentHashMap<>();
 
     /**
      * Internal thread pool
@@ -41,19 +42,26 @@ public class AccumulationLogger {
     private static final ExecutorService THREAD_POOL
             = Executors.newFixedThreadPool(1);
 
-    public static void accumulateAccess(Class<?> clazz, LogTemplate template, Object ... args) {
+    public static void accumulateAccess(
+        Class<?> clazz,
+        LogTemplate template,
+        Object ... args) {
+            //Submit task to thread pool directly
         THREAD_POOL.submit(() -> {
             String key = clazz.toString() + template.toString();
-            logMap.computeIfAbsent(key, k -> 0);
+            LOG_MAP.computeIfAbsent(key, k -> 0);
             Integer current =
                     Optional
-                            .ofNullable(logMap.computeIfPresent(key, (k, v) -> v + 1))
+                            .ofNullable(
+                                LOG_MAP
+                                .computeIfPresent(key, (k, v) -> v + 1))
                             .orElse(0);
             if (current >= template.getThreshold()) {
                 MethodLogger<MethodLogger.LevelInfo> logger
-                        = MethodLoggerFactory.getMethodLogger(MethodLogger.LevelInfo.class, clazz);
+                        = MethodLoggerFactory
+                        .getMethodLogger(MethodLogger.LevelInfo.class, clazz);
                 logger.generalLogMessage(template, args);
-                logMap.remove(key);
+                LOG_MAP.remove(key);
             }
         });
     }
