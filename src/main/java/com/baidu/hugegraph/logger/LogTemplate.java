@@ -159,6 +159,23 @@ public enum LogTemplate {
 
     /**** Hugegraph compute logs ****/
 
+    /**** Hugegraph common logs ****/
+    PAUSABLE_THREAD_PAUSED(
+        "PAUSABLE_THREAD_PAUSED",
+        "PausableScheduledThreadPool was paused"),
+
+    PAUSABLE_THREAD_RESUMED(
+        "PAUSABLE_THREAD_RESUMED",
+        "PausableScheduledThreadPool was resumed"),
+
+    PAUSABLE_THREAD_INTERRUPTED(
+        "PAUSABLE_THREAD_INTERRUPTED",
+        "PausableScheduledThreadPool was interrupted"),
+
+    WASTE_TIME_COST(
+        "WASTE_TIME_COST",
+        "Wasted time test: cost={}ms, base_cost={}, {}={}ns"),
+
     /**** Restful API access logs ****/
     RESTFUL_ACCESS_LOG("ACCESS_LOG",
     "{} /{} Status: {} - user: {} - roles: {} in {} ms"),

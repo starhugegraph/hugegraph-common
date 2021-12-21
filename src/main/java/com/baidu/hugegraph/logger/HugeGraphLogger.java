@@ -638,6 +638,46 @@ public class HugeGraphLogger {
 
     /**** Hugegraph compute logs ****/
 
+    /**** Hugegraph common logs ****/
+    /**
+     * PausableScheduledThreadPool paused
+     */
+    public void logThreadPaused() {
+        infoLogger
+        .generalLogMessage(LogTemplate.PAUSABLE_THREAD_PAUSED);
+    }
+
+    /**
+     * PausableScheduledThreadPool resumed
+     */
+    public void logThreadResumed() {
+        infoLogger
+        .generalLogMessage(LogTemplate.PAUSABLE_THREAD_RESUMED);
+    }
+
+    /**
+     * PausableScheduledThreadPool interrupted
+     */
+    public void logThreadInterrupted() {
+        warnLogger
+        .generalLogMessage(LogTemplate.PAUSABLE_THREAD_INTERRUPTED);
+    }
+
+    /**
+     * Waste time costs
+     * @param cost
+     * @param baseCost
+     * @param name
+     * @param eachCost
+     */
+    public void logWasteTimeCost(
+        Double cost, Double baseCost, String name, Long eachCost) {
+        infoLogger
+        .generalLogMessage(
+            LogTemplate.WASTE_TIME_COST,
+            cost, baseCost, name, eachCost);
+    }
+
     /**** Restful API access logs ****/
     /**
      * Restful API Access

@@ -22,8 +22,7 @@ package com.baidu.hugegraph.perf;
 import java.util.List;
 import java.util.function.BiFunction;
 
-import org.slf4j.Logger;
-
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.perf.PerfUtil.FastMap;
 import com.baidu.hugegraph.perf.PerfUtil.LocalStack;
 import com.baidu.hugegraph.testutil.Whitebox;
@@ -31,7 +30,8 @@ import com.baidu.hugegraph.util.Log;
 
 public final class NormalStopwatch implements Stopwatch {
 
-    private static final Logger LOG = Log.logger(Stopwatch.class);
+    private static final HugeGraphLogger LOGGER
+        = Log.getLogger(Stopwatch.class);
 
     private static final String MULTI_THREAD_ACCESS_ERROR =
                          "There may be multi-threaded access, ensure " +
@@ -271,8 +271,12 @@ public final class NormalStopwatch implements Stopwatch {
             assert cost > 0;
             long eachCost = cost / times;
 
-            LOG.info("Wasted time test: cost={}ms, base_cost={}ms, {}={}ns",
-                     cost / 1000000.0, baseCost / 1000000.0, name, eachCost);
+            LOGGER.logWasteTimeCost(
+                (double)(cost / 1000000.0),
+                (double)(baseCost / 1000000.0),
+                name,
+                eachCost);
+
             return eachCost;
         };
 
