@@ -20,7 +20,6 @@
 package com.baidu.hugegraph.logger;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import com.baidu.hugegraph.event.Event;
 

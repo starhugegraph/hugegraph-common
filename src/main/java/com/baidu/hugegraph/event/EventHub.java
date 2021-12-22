@@ -78,7 +78,8 @@ public class EventHub {
         if (executor != null) {
             return;
         }
-        LOGGER.logCustomDebug("Init pool(size {}) for EventHub", "Zhangmei Li", poolSize);
+        LOGGER.logCustomDebug(
+            "Init pool(size {}) for EventHub", "Zhangmei Li", poolSize);
         executor = ExecutorUtil.newFixedThreadPool(poolSize, EVENT_WORKER);
     }
 

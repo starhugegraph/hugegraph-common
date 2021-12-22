@@ -37,8 +37,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-
 import com.baidu.hugegraph.func.TriFunction;
 import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.perf.Stopwatch.Path;
