@@ -271,7 +271,7 @@ public final class NormalStopwatch implements Stopwatch {
             assert cost > 0;
             long eachCost = cost / times;
 
-            LOGGER.logWasteTimeCost(
+            LOGGER.getCommonLogger().logWasteTimeCost(
                 (double)(cost / 1000000.0),
                 (double)(baseCost / 1000000.0),
                 name,

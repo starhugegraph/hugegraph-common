@@ -93,4 +93,8 @@ public class MethodLogger<T extends GraphLogLevel> {
     public void generalLogMessage(LogTemplate template, Object ...args) {
         processor.apply(template.getContent()).apply(args);
     }
+
+    public void customLogMessage(String template, Object ...args) {
+        processor.apply(template).apply(args);
+    }
 }

@@ -30,14 +30,15 @@ import org.apache.commons.configuration.AbstractFileConfiguration;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
-import org.slf4j.Logger;
 
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.E;
 import com.baidu.hugegraph.util.Log;
 
 public class HugeConfig extends PropertiesConfiguration {
 
-    private static final Logger LOG = Log.logger(HugeConfig.class);
+    private static final HugeGraphLogger LOGGER
+        = Log.getLogger(HugeConfig.class);
 
     public HugeConfig(Configuration config) {
         if (config == null) {
@@ -140,8 +141,7 @@ public class HugeConfig extends PropertiesConfiguration {
     @Override
     public void addProperty(String key, Object value) {
         if (!OptionSpace.containKey(key)) {
-            LOG.warn("The config option '{}' is redundant, " +
-                     "please ensure it has been registered", key);
+            LOGGER.getCommonLogger().logRedundantOption(key);
         } else {
             // The input value is String(parsed by PropertiesConfiguration)
             value = this.validateOption(key, value);

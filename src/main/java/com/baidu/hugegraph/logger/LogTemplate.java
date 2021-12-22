@@ -163,18 +163,32 @@ public enum LogTemplate {
     PAUSABLE_THREAD_PAUSED(
         "PAUSABLE_THREAD_PAUSED",
         "PausableScheduledThreadPool was paused"),
-
     PAUSABLE_THREAD_RESUMED(
         "PAUSABLE_THREAD_RESUMED",
         "PausableScheduledThreadPool was resumed"),
-
     PAUSABLE_THREAD_INTERRUPTED(
         "PAUSABLE_THREAD_INTERRUPTED",
         "PausableScheduledThreadPool was interrupted"),
-
     WASTE_TIME_COST(
         "WASTE_TIME_COST",
         "Wasted time test: cost={}ms, base_cost={}, {}={}ns"),
+    REDUNDANT_CONFIG_OPTION(
+        "REDUNDANT_CONFIG_OPTION",
+        "The config option '{}' is redundant, " +
+        "please ensure it has been registered"),
+    NO_STATIC_METHOD(
+        "NO_STATIC_METHOD",
+        "Class {} does not has static method {}."),
+    CANNOT_CALL_METHOD(
+        "CANNOT_CALL_METHOD",
+        "Can't call static method {} from class {}."),
+    ILLEGAL_ACCESS(
+        "ILLEGAL_ACCESS",
+        "Illegal access while calling method {} from class {}."),
+    ALREADY_REGISTERED(
+        "ALREADY_REGISTERED",
+        "Already registered option holder: {} ({})"),
+    
 
     /**** Restful API access logs ****/
     RESTFUL_ACCESS_LOG("ACCESS_LOG",

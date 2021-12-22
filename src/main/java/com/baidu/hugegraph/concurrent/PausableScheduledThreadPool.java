@@ -40,13 +40,13 @@ public class PausableScheduledThreadPool extends ScheduledThreadPoolExecutor {
 
     public synchronized void pauseSchedule() {
         this.paused = true;
-        LOGGER.logThreadPaused();
+        LOGGER.getCommonLogger().logThreadPaused();
     }
 
     public synchronized void resumeSchedule() {
         this.paused = false;
         this.notifyAll();
-        LOGGER.logThreadResumed();
+        LOGGER.getCommonLogger().logThreadResumed();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PausableScheduledThreadPool extends ScheduledThreadPoolExecutor {
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
-                    LOGGER.logThreadInterrupted();
+                    LOGGER.getCommonLogger().logThreadInterrupted();
                 }
             }
         }
