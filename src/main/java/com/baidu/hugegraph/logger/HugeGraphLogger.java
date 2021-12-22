@@ -139,7 +139,9 @@ public class HugeGraphLogger {
      * @param executor
      * @param args
      */
-    public void logCustomDebug(String template, String executor, Object ...args) {
+    public void logCustomDebug(
+        String template, String executor, Object ...args) {
+        // Format DEBUG label & executor name at the beginning
         String formatted = "DEBUG [{}] " + template;
         debugLogger.customLogMessage(formatted, executor, args);
     }
