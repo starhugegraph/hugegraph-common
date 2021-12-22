@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.configuration.PropertyConverter;
-import org.slf4j.Logger;
 
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.E;
 import com.baidu.hugegraph.util.Log;
 import com.google.common.base.Joiner;
@@ -34,7 +34,8 @@ import com.google.common.collect.ImmutableSet;
 
 public class TypedOption<T, R> {
 
-    private static final Logger LOG = Log.logger(TypedOption.class);
+    private static final HugeGraphLogger LOGGER
+            = Log.getLogger(TypedOption.class);
 
     private static final Set<Class<?>> ACCEPTED_DATA_TYPES;
     private static final String ACCEPTED_DATA_TYPES_STRING;
@@ -147,8 +148,9 @@ public class TypedOption<T, R> {
                             methodTo, Object.class);
             return method.invoke(null, value);
         } catch (ReflectiveOperationException e) {
-            LOG.error("Invalid type of value '{}' for option '{}'",
-                      value, this.name, e);
+            LOGGER
+                .getCommonLogger()
+                .logInvalidOptionType(value, this.name, e);
             throw new ConfigException(
                       "Invalid type of value '%s' for option '%s', " +
                       "expect '%s' type",

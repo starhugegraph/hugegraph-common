@@ -25,8 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.slf4j.Logger;
-
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.Log;
 
 import de.schlichtherle.license.LicenseContent;
@@ -39,7 +38,8 @@ import de.schlichtherle.xml.GenericCertificate;
 
 public class CommonLicenseManager extends LicenseManager {
 
-    private static final Logger LOG = Log.logger(CommonLicenseManager.class);
+    private static final HugeGraphLogger LOGGER
+            = Log.getLogger(CommonLicenseManager.class);
 
     private static final String CHARSET = "UTF-8";
     private static final int BUF_SIZE = 8 * 1024;
@@ -123,7 +123,7 @@ public class CommonLicenseManager extends LicenseManager {
                     bis.close();
                 }
             } catch (Exception e) {
-                LOG.warn("Failed to close stream", e);
+                LOGGER.getCommonLogger().logCloseStreamFailed(e);
             }
         }
     }

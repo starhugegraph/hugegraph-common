@@ -188,7 +188,18 @@ public enum LogTemplate {
     ALREADY_REGISTERED(
         "ALREADY_REGISTERED",
         "Already registered option holder: {} ({})"),
-    
+    REGISTER_OPTION_FAILED(
+        "REGISTER_OPTION_FAILED",
+        "Failed to register option: {}"),
+    INVALID_OPTION_TYPE(
+        "INVALID_OPTION_TYPE",
+        "Invalid type of value '{}' for option '{}'"),
+    HANDLE_EVENT_FAILED(
+        "HANDLE_EVENT_FAILED",
+        "Failed to handle event {}"),
+    CLOSE_STREAM_FAILED(
+        "CLOSE_STREAM_FAILED",
+        "Failed to close stream"),
 
     /**** Restful API access logs ****/
     RESTFUL_ACCESS_LOG("ACCESS_LOG",
