@@ -36,6 +36,7 @@ public class HugeGraphLogger {
 
     private final AuditLogger auditLogger;
     private final CommonLogger commonLogger;
+    private final ServerLogger serverLogger;
 
     /**
      * Initialize logger with given type
@@ -62,9 +63,10 @@ public class HugeGraphLogger {
         errorLogger = MethodLoggerFactory
                 .getMethodLogger(MethodLogger.LevelError.class, clazz);
 
+        // Loggers for corresponding modules
         auditLogger = new AuditLogger(targetType);
-
         commonLogger = new CommonLogger(targetType);
+        serverLogger = new ServerLogger(targetType);
     }
 
     /**
@@ -196,5 +198,9 @@ public class HugeGraphLogger {
 
     public CommonLogger getCommonLogger() {
         return this.commonLogger;
+    }
+
+    public ServerLogger getServerLogger() {
+        return this.serverLogger;
     }
 }

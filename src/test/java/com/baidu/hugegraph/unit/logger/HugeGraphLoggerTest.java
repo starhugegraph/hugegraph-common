@@ -23,6 +23,8 @@ import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.logger.MethodLogger;
 import com.baidu.hugegraph.logger.MethodLoggerFactory;
 import com.baidu.hugegraph.testutil.Assert;
+import com.baidu.hugegraph.util.Log;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,5 +56,11 @@ public class HugeGraphLoggerTest {
                         HugeGraphLogger.class);
         // Test if they are same reference
         Assert.assertSame(logger, methodLogger);
+    }
+
+    @Test
+    public void testGeneralLog() {
+        HugeGraphLogger logger = Log.getLogger(this.getClass());
+        logger.logDebug("Scorpiour", "Hello", "world");
     }
 }
