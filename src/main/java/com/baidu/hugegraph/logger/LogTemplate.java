@@ -30,10 +30,7 @@ public enum LogTemplate {
 
     /* General logs */
     UNKNOWN("UNKNOWN", ""),
-    START_REST_SERVER(
-        "START_REST_SERVER",
-        "[SERVER] restServer has been initialized!"),
-    SERVER_DOWN("SERVER_DOWN", "Hugegraph Server Down!"),
+
     CRITICAL_ERROR(
         "CRITICAL_ERROR",
         "Critical error captured! {}, addition info {}"),
@@ -42,11 +39,121 @@ public enum LogTemplate {
         "General Debug Log: executor: {}, info: {}, context {}"),
     
     /**** Hugegraph server logs ****/
+    SERVER_DOWN(
+        "SERVER_DOWN",
+        "[SERVER] Hugegraph Server Down!"),
+    START_REST_SERVER(
+        "START_REST_SERVER",
+        "[SERVER] restServer has been initialized!"),
     COMMIT_FAILED(
-        "[SERVER] COMMIT_FAILED", "Failed to commit"),
+        "COMMIT_FAILED", "[SERVER] Failed to commit"),
     ROLLBACK_FAILED(
-        "[SERVER] ROLLBACK_FAILED", "Failed to rollback"),
+        "ROLLBACK_FAILED", "[SERVER] Failed to rollback"),  
+    AUTH_PROXY_INIT(
+        "AUTH_PROXY_INIT",
+        "[SERVER] Wrap graph '{}' with HugeGraphAuthProxy" +
+        " with log rate limit {}"),
+    VERIFY_RES_PERM(
+        "VERIFY_RES_PERM",
+        "[SERVER] User '{}' is {} to {} {}"),
+    VALIDATE_USER_FAILED(
+        "VALIDATE_USER_FAILED",
+        "[SERVER] Failed to validate user {} with error: "),
+    VALIDATE_TOKEN_FAILED(
+        "VALIDATE_TOKEN_FAILED",
+        "[SERVER] Failed to validate token with error: "),
 
+    /**** HugeGraph core related logs ****/
+    CREATE_GRAPH(
+        "CREATE_GRAPH",
+        "[SERVER] Create graph [{}] with config option '{}'"),
+    REMOVE_GRAPH(
+        "REMOVE_Graph",
+        "[SERVER] Remove graph by name {}"),
+    CLEAR_GRAPH(
+        "CLEAR_GRAPH",
+        "[SERVER] Clear graph by name {}"),
+    MANAGE_GRAPH(
+        "MANAGE_GRAPH",
+        "[SERVER] Manage graphs with {}"),
+    
+    CREATE_SNAPSHOT(
+        "CREATE_SNAPSHOT",
+        "[SERVER] Create snapshot for graph {}"),
+    RESUME_SNAPSHOT(
+        "RESUME_SNAPSHOT",
+        "[SERVER] Resume snapshot for graph {}"),
+    
+    COMPACT_GRAPH(
+        "COMPACT_GRAPH",
+        "[SERVER] Manually compact graph {}"),
+    FLUSH_GRAPH(
+        "FLUSH_GRAPH",
+        "[SERVER] Manually flush graph {}"),
+
+    CREATE_ACCESS(
+        "CREATE_ACCESS",
+        "[SERVER] Graph [{}] create access: {}"),
+    UPDATE_ACCESS(
+        "UPDATE_ACCESS",
+        "[SERVER] Graph [{}] update access: {}"),
+    DELETE_ACCESS(
+        "DELETE_ACCESS",
+        "[SERVER] Graph [{}] delete access: {}"),
+
+    CREATE_BELONG(
+        "CREATE_BELONG",
+        "[SERVER] Graph [{}] create belong: {}"),
+    UPDATE_BELONG(
+        "UPDATE_BELONG",
+        "[SERVER] Graph [{}] update belong: {}"),
+    DELETE_BELONG(
+        "DELETE_BELONG",
+        "[SERVER] Graph [{}] delete belong: {}"),
+
+
+    CREATE_PROJECT(
+        "CREATE_PROJECT",
+        "[SERVER] Graph [{}] create project: {}"),
+    UPDATE_PROJECT(
+        "UPDATE_PROJECT",
+        "[SERVER] Graph [{}] update project: {}"),
+    DELETE_PROJECT(
+        "DELETE_PROJECT",
+        "[SERVER] Graph [{}] delete project: {}"),
+
+    CREATE_TARGET(
+        "CREATE_TARGET",
+        "[SERVER] Graph [{}] create target: {}"),
+    UPDATE_TARGET(
+        "UPDATE_TARGET",
+        "[SERVER] Graph [{}] update target: {}"),
+    DELETE_TARGET(
+        "DELETE_TARGET",
+        "[SERVER] Graph [{}] delete target: {}"),
+
+    CREATE_TASK(
+        "CREATE_TASK",
+        "[SERVER] Graph [{}] create Task: {}"),
+    UPDATE_TASK(
+        "UPDATE_TASK",
+        "[SERVER] Graph [{}] update task: {}"),
+    CANCEL_TASK(
+        "CANCEL_TASK",
+        "[SERVER] Graph [{}] cancel task: {}"),
+    DELETE_TASK(
+        "DELETE_TASK",
+        "[SERVER] Graph [{}] delete task: {}"),
+
+    CREATE_PROPERTY(
+        "CREATE_PROPERTY",
+        "[SERVER] Graph [{}] create property key: {}"),
+    UPDATE_PROPERTY(
+        "UPDATE_PROPERTY",
+        "[SERVER] Graph [{}] update property key: {}"),
+    DELETE_PROPERTY(
+        "DELETE_PROPERTY",
+        "[SERVER] Graph [{}] delete property key: {}"),
 
     /**** User related logs ****/
 
@@ -81,11 +188,16 @@ public enum LogTemplate {
     RESET_PASSWORD("RESET_PASSWORD", "[AUDIT] User {} has reset password"),
 
     /* Authorization Management */
-    USER_LOGIN("USER_LOGIN", "[AUDIT] User {} has been logged in via {}"),
+    USER_LOGIN(
+        "USER_LOGIN",
+        "[AUDIT] User {} has been logged in via {} with path {}"),
     USER_LOGOUT("USER_LOGOUT", "[AUDIT] User {} has been logged out"),
     USER_DISPOSE("USER_DISPOSE", "[AUDIT] User {} has been disposed by {}"),
     USER_LOCK("USER_LOCK", "[AUDIT] User {} has been locked by {}"),
     USER_UNLOCK("USER_UNLOCK", "[AUDIT] User {} has been unlocked by {}"),
+    USER_ACCESS_DENIED(
+        "USER_ACCESS_DENIED",
+        "[AUDIT] User {} access {} to {} has been denied"),
     GENERATE_AUTH_KEY(
         "GENERATE_AUTH_KEY",
         "[AUDIT] User {} has generated a new auth key"),

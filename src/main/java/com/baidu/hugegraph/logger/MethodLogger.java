@@ -37,6 +37,8 @@ public class MethodLogger<T extends GraphLogLevel> {
 
     private final Function<String, Function<Object[], Void>> processor;
 
+    private final Logger logger;
+
     /**
      * Initialize logger by Type;
      * @param type type of MethodLogger
@@ -44,42 +46,42 @@ public class MethodLogger<T extends GraphLogLevel> {
      */
     public MethodLogger(Class<T> type, Class<?> clazz) {
         // Invoke slf4j logger
-        Logger logger = LoggerFactory.getLogger(clazz);
+        this.logger = LoggerFactory.getLogger(clazz);
 
         // Recognize actual type of current logger instance
         if (type.equals(LevelInfo.class)) {
             processor = (String s) -> ((Object... args) -> {
-                logger.info(s, args);
+                this.logger.info(s, args);
                 return null;
             });
         } else if (type.equals(LevelDebug.class)) {
             processor = (String s) -> ((Object... args) -> {
-                logger.debug(s, args);
+                this.logger.debug(s, args);
                 return null;
             });
         } else if (type.equals(LevelError.class)) {
             processor = (String s) -> ((Object... args) -> {
-                logger.error(s, args);
+                this.logger.error(s, args);
                 return null;
             });
         } else if (type.equals(LevelWarn.class)) {
             processor = (String s) -> ((Object... args) -> {
-                logger.warn(s, args);
+                this.logger.warn(s, args);
                 return null;
             });
         } else if (type.equals(LevelTrace.class)) {
             processor = (String s) -> ((Object... args) -> {
-                logger.trace(s, args);
+                this.logger.trace(s, args);
                 return null;
             });
         } else {
-            logger.info(
+            this.logger.info(
                     "Fall into default type, actual type: {}, type of info: {}",
                     type,
                     LevelInfo.class
             );
             processor = (String s) -> ((Object... args) -> {
-                logger.info(s, args);
+                this.logger.info(s, args);
                 return null;
             });
         }
@@ -96,5 +98,9 @@ public class MethodLogger<T extends GraphLogLevel> {
 
     public void customLogMessage(String template, Object ...args) {
         processor.apply(template).apply(args);
+    }
+
+    public boolean isDebugEnabled() {
+        return logger.isDebugEnabled();
     }
 }

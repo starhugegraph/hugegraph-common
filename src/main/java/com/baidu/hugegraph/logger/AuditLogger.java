@@ -191,9 +191,9 @@ public class AuditLogger {
      * @param userId
      * @param deviceInfo
      */
-    public void logUserLogin(String userId, String deviceInfo) {
+    public void logUserLogin(String userId, String deviceInfo, String path) {
         infoLogger
-        .generalLogMessage(LogTemplate.USER_LOGIN, userId, deviceInfo);
+        .generalLogMessage(LogTemplate.USER_LOGIN, userId, deviceInfo, path);
     }
     
     /**
@@ -233,6 +233,20 @@ public class AuditLogger {
     public void logUserUnlocked(String userId, String executorId) {
         infoLogger
         .generalLogMessage(LogTemplate.USER_UNLOCK, userId, executorId);
+    }
+
+    /**
+     * Use access is denied
+     * @param userId
+     * @param access
+     * @param resourceObject
+     */
+    public void logUserAccessDenied(
+        String userId, String access, Object resourceObject) {
+        warnLogger
+        .generalLogMessage(
+            LogTemplate.USER_ACCESS_DENIED,
+            userId, access, resourceObject);
     }
 
     /**

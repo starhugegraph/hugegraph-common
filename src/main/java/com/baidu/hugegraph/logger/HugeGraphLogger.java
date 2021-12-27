@@ -69,6 +69,10 @@ public class HugeGraphLogger {
         serverLogger = new ServerLogger(targetType);
     }
 
+    public boolean isDebugEnabled() {
+        return this.debugLogger.isDebugEnabled();
+    }
+
     /**
      * Allow alternate level
      * @param level customized level
