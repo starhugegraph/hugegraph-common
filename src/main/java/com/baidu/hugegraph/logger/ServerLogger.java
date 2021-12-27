@@ -360,9 +360,12 @@ public class ServerLogger {
      * @param graph
      * @param jsonPropKey
      */
-    public void logUpdateProperty(String graph, Object jsonPropKey) {
+    public void logUpdateProperty(
+            String graph, String action, Object jsonPropKey) {
+        
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_PROPERTY, graph, jsonPropKey);
+        .generalLogMessage(
+            LogTemplate.UPDATE_PROPERTY, graph, action, jsonPropKey);
     }
 
     /**

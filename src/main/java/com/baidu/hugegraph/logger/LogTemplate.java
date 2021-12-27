@@ -150,7 +150,7 @@ public enum LogTemplate {
         "[SERVER] Graph [{}] create property key: {}"),
     UPDATE_PROPERTY(
         "UPDATE_PROPERTY",
-        "[SERVER] Graph [{}] update property key: {}"),
+        "[SERVER] Graph [{}] {} update property key: {}"),
     DELETE_PROPERTY(
         "DELETE_PROPERTY",
         "[SERVER] Graph [{}] delete property key: {}"),
