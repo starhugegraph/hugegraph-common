@@ -17,15 +17,33 @@
  * under the License.
  */
 
-package com.baidu.hugegraph.version;
+package com.baidu.hugegraph.logger;
 
-import com.baidu.hugegraph.util.VersionUtil.Version;
+/**
+ * Provide client general log methods
+ * @author Scorpiour
+ * @since 2021-12-27
+ */
+public class ClientLogger {
+    
+    private final MethodLogger<MethodLogger.LevelDebug> debugLogger;
+    private final MethodLogger<MethodLogger.LevelInfo> infoLogger;
 
-public class CommonVersion {
+    public ClientLogger(Class<?> clazz) {
+        debugLogger = MethodLoggerFactory
+        .getMethodLogger(MethodLogger.LevelDebug.class, clazz);
 
-    public static final String NAME = "hugegraph-common";
+        infoLogger = MethodLoggerFactory
+                .getMethodLogger(MethodLogger.LevelInfo.class, clazz);
+    }
 
-    // The second parameter of Version.of() is for all-in-one JAR
-    public static final Version VERSION = Version.of(CommonVersion.class,
-                                                     "1.8.11");
+    void logRestClientAccess(Object ...args) {
+        infoLogger
+        .generalLogMessage(LogTemplate.REST_CLIENT_ACCESS, args);
+    }
+
+    void logClientDebug(String template, Object ...args) {
+        debugLogger
+        .customLogMessage(template, args);
+    }
 }

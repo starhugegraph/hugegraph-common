@@ -19,9 +19,14 @@
 
 package com.baidu.hugegraph.util;
 
+import com.baidu.hugegraph.logger.HugeGraphLoggerFactory;
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * General Logger compulsory class
+ */
 public final class Log {
 
     public static Logger logger(String name) {
@@ -30,5 +35,14 @@ public final class Log {
 
     public static Logger logger(Class<?> clazz) {
         return LoggerFactory.getLogger(clazz);
+    }
+
+    /**
+     * Template level logger
+     * @param clazz Class of caller
+     * @return Logger of corresponding caller class
+     */
+    public static HugeGraphLogger getLogger(Class<?> clazz) {
+        return HugeGraphLoggerFactory.getLogger(clazz);
     }
 }

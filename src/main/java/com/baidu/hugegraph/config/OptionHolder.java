@@ -24,13 +24,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.Log;
 
 public class OptionHolder {
 
-    private static final Logger LOG = Log.logger(HugeConfig.class);
+
+    private static final HugeGraphLogger LOGGER
+        = Log.getLogger(HugeConfig.class);
 
     protected Map<String, TypedOption<?, ?>> options;
 
@@ -49,7 +50,7 @@ public class OptionHolder {
                 // Fields of subclass first, don't overwrite by superclass
                 this.options.putIfAbsent(option.name(), option);
             } catch (Exception e) {
-                LOG.error("Failed to register option: {}", field, e);
+                LOGGER.getCommonLogger().logRegisterOptionFailed(e, field);
                 throw new ConfigException(
                           "Failed to register option: %s", field);
             }

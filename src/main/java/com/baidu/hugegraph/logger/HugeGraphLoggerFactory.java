@@ -17,15 +17,26 @@
  * under the License.
  */
 
-package com.baidu.hugegraph.version;
+package com.baidu.hugegraph.logger;
 
-import com.baidu.hugegraph.util.VersionUtil.Version;
+import javax.inject.Singleton;
+import java.util.HashMap;
+import java.util.Map;
 
-public class CommonVersion {
+/**
+ * Factory that manages all the HugeGraphLoggers by Type
+ */
+@Singleton
+public class HugeGraphLoggerFactory {
+    private static final Map<Class<?>, HugeGraphLogger> LOGGER_MAP
+        = new HashMap<>();
 
-    public static final String NAME = "hugegraph-common";
-
-    // The second parameter of Version.of() is for all-in-one JAR
-    public static final Version VERSION = Version.of(CommonVersion.class,
-                                                     "1.8.11");
+    /**
+     * Ger hugeGraphLogger by class
+     * @param clazz Caller class
+     * @return corresponding logger
+     */
+    public static HugeGraphLogger getLogger(Class<?> clazz) {
+        return LOGGER_MAP.computeIfAbsent(clazz, HugeGraphLogger::new);
+    }
 }

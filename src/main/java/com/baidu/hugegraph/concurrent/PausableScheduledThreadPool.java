@@ -23,14 +23,13 @@ import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 
-import org.slf4j.Logger;
-
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.Log;
 
 public class PausableScheduledThreadPool extends ScheduledThreadPoolExecutor {
 
-    private static final Logger LOG = Log.logger(
-                                      PausableScheduledThreadPool.class);
+    private static final HugeGraphLogger LOGGER
+        = Log.getLogger(PausableScheduledThreadPool.class);
 
     private volatile boolean paused = false;
 
@@ -41,13 +40,13 @@ public class PausableScheduledThreadPool extends ScheduledThreadPoolExecutor {
 
     public synchronized void pauseSchedule() {
         this.paused = true;
-        LOG.info("PausableScheduledThreadPool was paused");
+        LOGGER.getCommonLogger().logThreadPaused();
     }
 
     public synchronized void resumeSchedule() {
         this.paused = false;
         this.notifyAll();
-        LOG.info("PausableScheduledThreadPool was resumed");
+        LOGGER.getCommonLogger().logThreadResumed();
     }
 
     @Override
@@ -57,7 +56,7 @@ public class PausableScheduledThreadPool extends ScheduledThreadPoolExecutor {
                 try {
                     this.wait();
                 } catch (InterruptedException e) {
-                    LOG.warn("PausableScheduledThreadPool was interrupted");
+                    LOGGER.getCommonLogger().logThreadInterrupted();
                 }
             }
         }

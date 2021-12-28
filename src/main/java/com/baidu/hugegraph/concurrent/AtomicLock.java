@@ -21,14 +21,14 @@ package com.baidu.hugegraph.concurrent;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.slf4j.Logger;
-
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.Log;
 
 public class AtomicLock {
 
-    private static final Logger LOG = Log.logger(LockManager.class);
-
+    // private static final Logger LOG = Log.logger(LockManager.class);
+    private static final HugeGraphLogger LOGGER
+        = Log.getLogger(LockManager.class);
     private String name;
     private AtomicReference<Thread> sign;
 
@@ -70,7 +70,7 @@ public class AtomicLock {
                 Thread.sleep(1000 * (1L << i));
             }
         } catch (InterruptedException ignored) {
-            LOG.info("Thread sleep is interrupted.");
+            LOGGER.logCriticalError(ignored, "Thread sleep is interrupted");   
         }
         return isLocked;
     }

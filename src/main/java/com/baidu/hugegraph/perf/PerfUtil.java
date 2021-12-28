@@ -37,9 +37,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.slf4j.Logger;
-
 import com.baidu.hugegraph.func.TriFunction;
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.perf.Stopwatch.Path;
 import com.baidu.hugegraph.testutil.Assert.ThrowableConsumer;
 import com.baidu.hugegraph.util.Log;
@@ -53,8 +52,9 @@ import javassist.CtMethod;
 
 public final class PerfUtil {
 
-    private static final Logger LOG = Log.logger(PerfUtil.class);
-    private static final int DEFAUL_CAPATICY = 1024;
+    private static final HugeGraphLogger LOGGER
+            = Log.getLogger(PerfUtil.class);
+    private static final int DEFAULT_CAPACITY = 1024;
 
     private static final ThreadLocal<PerfUtil> INSTANCE = new ThreadLocal<>();
 
@@ -68,8 +68,8 @@ public final class PerfUtil {
     private final Stopwatch root;
 
     private PerfUtil() {
-        this.stopwatches = new HashMap<>(DEFAUL_CAPATICY);
-        this.callStack = new LocalStack<>(DEFAUL_CAPATICY);
+        this.stopwatches = new HashMap<>(DEFAULT_CAPACITY);
+        this.callStack = new LocalStack<>(DEFAULT_CAPACITY);
         this.root = newStopwatch(Path.ROOT_NAME, Path.EMPTY);
     }
 
@@ -291,7 +291,9 @@ public final class PerfUtil {
         // Insert as a finally-statement
         ctMethod.insertAfter(String.format(END, name), true);
 
-        LOG.debug("Profiled for: '{}' [{}]", name, ctMethod.getLongName());
+        LOGGER.logCustomDebug(
+            "Profiled for: '{}' [{}]",
+            "Zhangmei Li", name, ctMethod.getLongName());
     }
 
     @Override

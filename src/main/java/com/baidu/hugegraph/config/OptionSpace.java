@@ -27,14 +27,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.slf4j.Logger;
-
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.E;
 import com.baidu.hugegraph.util.Log;
 
 public final class OptionSpace {
 
-    private static final Logger LOG = Log.logger(OptionSpace.class);
+    private static final HugeGraphLogger LOGGER
+        = Log.getLogger(OptionSpace.class);
 
     private static final Map<String, Class<? extends OptionHolder>> HOLDERS;
     private static final Map<String, TypedOption<?, ?>> OPTIONS;
@@ -75,16 +75,19 @@ public final class OptionSpace {
                                 INSTANCE_METHOD);
             }
         } catch (NoSuchMethodException e) {
-            LOG.warn("Class {} does not has static method {}.",
-                     holder, INSTANCE_METHOD);
+            LOGGER
+                .getCommonLogger()
+                .logNoStaticMethod(holder, INSTANCE_METHOD);
             exception = e;
         } catch (InvocationTargetException e) {
-            LOG.warn("Can't call static method {} from class {}.",
-                     INSTANCE_METHOD, holder);
+            LOGGER
+                .getCommonLogger()
+                .logCannotCallMethod(holder, INSTANCE_METHOD);
             exception = e;
         } catch (IllegalAccessException e) {
-            LOG.warn("Illegal access while calling method {} from class {}.",
-                     INSTANCE_METHOD, holder);
+            LOGGER
+                .getCommonLogger()
+                .logIllegalAccess(holder, INSTANCE_METHOD);
             exception = e;
         }
 
@@ -99,14 +102,18 @@ public final class OptionSpace {
     public static void register(String module, OptionHolder holder) {
         // Check exists
         if (HOLDERS.containsKey(module)) {
-            LOG.warn("Already registered option holder: {} ({})",
-                     module, HOLDERS.get(module));
+            LOGGER
+                .getCommonLogger()
+                .logAlreadyRegistered(module, HOLDERS.get(module));
         }
         E.checkArgumentNotNull(holder, "OptionHolder can't be null");
         HOLDERS.put(module, holder.getClass());
         OPTIONS.putAll(holder.options());
-        LOG.debug("Registered options for OptionHolder: {}",
-                  holder.getClass().getSimpleName());
+
+        LOGGER.logCustomDebug(
+            "Registered options for OptionHolder: {}",
+            "Zhangmei Li",
+            holder.getClass().getSimpleName());
     }
 
     public static Set<String> keys() {

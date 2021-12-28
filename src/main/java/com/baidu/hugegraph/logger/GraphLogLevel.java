@@ -16,16 +16,10 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
+package com.baidu.hugegraph.logger;
 
-package com.baidu.hugegraph.version;
-
-import com.baidu.hugegraph.util.VersionUtil.Version;
-
-public class CommonVersion {
-
-    public static final String NAME = "hugegraph-common";
-
-    // The second parameter of Version.of() is for all-in-one JAR
-    public static final Version VERSION = Version.of(CommonVersion.class,
-                                                     "1.8.11");
+/**
+ * This interface is a type constraint the limits the use of MethodLoggers
+ */
+public interface GraphLogLevel {
 }

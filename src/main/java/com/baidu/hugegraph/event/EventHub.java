@@ -31,9 +31,8 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
-import org.slf4j.Logger;
-
 import com.baidu.hugegraph.iterator.ExtendableIterator;
+import com.baidu.hugegraph.logger.HugeGraphLogger;
 import com.baidu.hugegraph.util.E;
 import com.baidu.hugegraph.util.ExecutorUtil;
 import com.baidu.hugegraph.util.Log;
@@ -41,7 +40,8 @@ import com.google.common.collect.ImmutableList;
 
 public class EventHub {
 
-    private static final Logger LOG = Log.logger(EventHub.class);
+    private static final HugeGraphLogger LOGGER
+            = Log.getLogger(EventHub.class);
 
     public static final String EVENT_WORKER = "event-worker-%d";
     public static final String ANY_EVENT = "*";
@@ -59,7 +59,7 @@ public class EventHub {
     }
 
     public EventHub(String name) {
-        LOG.debug("Create new EventHub: {}", name);
+        LOGGER.logCustomDebug("Create new EventHub: {}", "Zhangmei Li", name);
 
         this.name = name;
         this.listeners = new ConcurrentHashMap<>();
@@ -67,7 +67,7 @@ public class EventHub {
     }
 
     public EventHub(String name, int threadSize) {
-        LOG.debug("Create new EventHub: {}", name);
+        LOGGER.logCustomDebug("Create new EventHub {}", "zhoney", name);
 
         this.name = name;
         this.listeners = new ConcurrentHashMap<>();
@@ -78,14 +78,15 @@ public class EventHub {
         if (executor != null) {
             return;
         }
-        LOG.debug("Init pool(size {}) for EventHub", poolSize);
+        LOGGER.logCustomDebug(
+            "Init pool(size {}) for EventHub", "Zhangmei Li", poolSize);
         executor = ExecutorUtil.newFixedThreadPool(poolSize, EVENT_WORKER);
     }
 
     public static synchronized boolean destroy(long timeout)
                                                throws InterruptedException {
         E.checkState(executor != null, "EventHub has not been initialized");
-        LOG.debug("Destroy pool for EventHub");
+        LOGGER.logCustomDebug("Destroy pool for EventHub", "Zhangmei Li");
         executor.shutdown();
         return executor.awaitTermination(timeout, TimeUnit.SECONDS);
     }
@@ -168,7 +169,7 @@ public class EventHub {
                     all.next().event(ev);
                     count++;
                 } catch (Throwable ignored) {
-                    LOG.warn("Failed to handle event: {}", ev, ignored);
+                    LOGGER.getCommonLogger().logHandleEventFailed(ev, ignored);
                 }
             }
             return count;
