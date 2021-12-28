@@ -155,6 +155,12 @@ public enum LogTemplate {
         "DELETE_PROPERTY",
         "[SERVER] Graph [{}] delete property key: {}"),
 
+
+    /**** Client related logs　 ****/
+    REST_CLIENT_ACCESS(
+        "REST_CLIENT_ACCESS",
+        ""),
+
     /**** User related logs ****/
 
     /* User Management */

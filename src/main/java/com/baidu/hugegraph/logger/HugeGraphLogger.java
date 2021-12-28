@@ -28,7 +28,6 @@ public class HugeGraphLogger {
 
     private final Class<?> targetType;
 
-    // private final MethodLogger<MethodLogger.LevelTrace> traceLogger;
     private final MethodLogger<MethodLogger.LevelDebug> debugLogger;
     private final MethodLogger<MethodLogger.LevelInfo> infoLogger;
     private final MethodLogger<MethodLogger.LevelWarn> warnLogger;
@@ -37,6 +36,7 @@ public class HugeGraphLogger {
     private final AuditLogger auditLogger;
     private final CommonLogger commonLogger;
     private final ServerLogger serverLogger;
+    private final ClientLogger clientLogger;
 
     /**
      * Initialize logger with given type
@@ -46,10 +46,6 @@ public class HugeGraphLogger {
 
         // which class the logger bind to
         this.targetType = clazz;
-
-        // Temporarily disable trace logger which is not that necessary
-        // traceLogger = MethodLoggerFactory
-        //        .getMethodLogger(MethodLogger.LevelTrace.class, clazz);
 
         debugLogger = MethodLoggerFactory
                 .getMethodLogger(MethodLogger.LevelDebug.class, clazz);
@@ -67,6 +63,7 @@ public class HugeGraphLogger {
         auditLogger = new AuditLogger(targetType);
         commonLogger = new CommonLogger(targetType);
         serverLogger = new ServerLogger(targetType);
+        clientLogger = new ClientLogger(targetType);
     }
 
     public boolean isDebugEnabled() {
@@ -206,5 +203,9 @@ public class HugeGraphLogger {
 
     public ServerLogger getServerLogger() {
         return this.serverLogger;
+    }
+
+    public ClientLogger getClientLogger() {
+        return this.clientLogger;
     }
 }
