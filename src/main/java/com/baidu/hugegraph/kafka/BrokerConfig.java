@@ -23,6 +23,5 @@ package com.baidu.hugegraph.kafka;
  * BrokerConfig used to init producer and consumer
  */
 public class BrokerConfig {
-        
     
 }

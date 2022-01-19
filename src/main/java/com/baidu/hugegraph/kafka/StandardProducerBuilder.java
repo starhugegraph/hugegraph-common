@@ -19,6 +19,11 @@
 
 package com.baidu.hugegraph.kafka;
 
-public class ConsumerClient {
-    
+/**
+ * Standard producer builder to make producer
+ */
+public class StandardProducerBuilder extends ProducerBuilder<String, String>  {
+    public StandardProducerBuilder() {
+
+    }
 }

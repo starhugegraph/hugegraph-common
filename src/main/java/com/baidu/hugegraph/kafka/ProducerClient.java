@@ -19,35 +19,51 @@
 
 package com.baidu.hugegraph.kafka;
 
+import java.time.Duration;
 import java.util.Properties;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 /**
- * Kafka client
+ * Kafka producer encapsulate
  * @author Scorpiour
  * @since 2022-01-18
  */
-public class ProducerClient {
+public class ProducerClient<K, V> {
 
-    private final KafkaProducer<String, String> producer;
+    private final KafkaProducer<K, V> producer;
     public final static String TOPIC = "hugegraph-nospace-default";
+    private volatile boolean closing = false;
 
     protected ProducerClient(Properties props) {
-        
         producer = new KafkaProducer<>(props);
     }
 
-    public void produce(String key, String value) {
+    public void produce(K key, V value) {
+        if (closing) {
+            throw new IllegalStateException("Cannot produce when producer is closing");
+        }
         try {
-            ProducerRecord<String, String> record = new ProducerRecord<>(TOPIC, 0, key, value);
+            ProducerRecord<K, V> record = new ProducerRecord<>(TOPIC, 0, key, value);
             RecordMetadata meta = this.producer.send(record).get();
             System.out.println(meta);
         } catch (Exception e) {
 
         }
         producer.flush();
+    }
+
+    public void close(long ttl) {
+        if (null != producer) {
+            this.closing = true;
+            Duration duration = Duration.ofSeconds(ttl);
+            producer.close(duration);
+        }
+    }
+
+    public void close() {
+        close(30);
     }
     
 }
