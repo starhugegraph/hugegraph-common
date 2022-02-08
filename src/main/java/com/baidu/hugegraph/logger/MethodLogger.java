@@ -21,6 +21,9 @@ package com.baidu.hugegraph.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.Map;
 import java.util.function.Function;
 
 /**
@@ -88,12 +91,102 @@ public class MethodLogger<T extends GraphLogLevel> {
     }
 
     /**
+     * Use custom appender name to make logger
+     * @param type level of logger
+     * @param targetClazz target class, will be logged in message
+     * @param appenderName appender name for log4j2 appender inspect
+     * @param serializer serializer use to serialize map to string
+     */
+    @SuppressWarnings("unchecked")
+    public MethodLogger(Class<T> type,
+                        Class<?> targetClazz,
+                        String appenderName,
+                        Function<Map<String, String>, String> serializer) {
+        this.logger = LoggerFactory.getLogger(appenderName);
+        // Recognize actual type of current logger instance
+        if (type.equals(LevelInfo.class)) {
+            processor = (String s) -> ((Object... args) -> {
+                Map<String, String> data = (Map<String, String>)(args[0]);
+                data.put("targetClass", targetClazz.getName());
+                data.put("timestamp", new Date().toString());
+                data.put("level", "INFO");
+                String text = serializer.apply(data);
+                this.logger.info(text);
+                return null;
+            });
+        } else if (type.equals(LevelDebug.class)) {
+            processor = (String s) -> ((Object... args) -> {
+                Map<String, String> data = (Map<String, String>)(args[0]);
+                data.put("targetClass", targetClazz.getName());
+                data.put("timestamp", new Date().toString());
+                data.put("level", "DEBUG");
+                String text = serializer.apply(data);
+                this.logger.debug(text);
+                return null;
+            });
+        } else if (type.equals(LevelError.class)) {
+            processor = (String s) -> ((Object... args) -> {
+                Map<String, String> data = (Map<String, String>)(args[0]);
+                data.put("targetClass", targetClazz.getName());
+                data.put("timestamp", new Date().toString());
+                data.put("level", "ERROR");
+                String text = serializer.apply(data);
+                this.logger.error(text);
+                return null;
+            });
+        } else if (type.equals(LevelWarn.class)) {
+            processor = (String s) -> ((Object... args) -> {
+                Map<String, String> data = (Map<String, String>)(args[0]);
+                data.put("targetClass", targetClazz.getName());
+                data.put("timestamp", new Date().toString());
+                data.put("level", "WARN");
+                String text = serializer.apply(data);
+                this.logger.warn(text);
+                return null;
+            });
+        } else if (type.equals(LevelTrace.class)) {
+            processor = (String s) -> ((Object... args) -> {
+                Map<String, String> data = (Map<String, String>)(args[0]);
+                data.put("targetClass", targetClazz.getName());
+                data.put("timestamp", new Date().toString());
+                data.put("level", "TRACE");
+                String text = serializer.apply(data);
+                this.logger.trace(text);
+                return null;
+            });
+        } else {
+            this.logger.info(
+                    "Fall into default type, actual type: {}, type of info: {}",
+                    type,
+                    LevelInfo.class
+            );
+            processor = (String s) -> ((Object... args) -> {
+                Map<String, String> data = (Map<String, String>)(args[0]);
+                data.put("targetClass", targetClazz.getName());
+                data.put("timestamp", new Date().toString());
+                data.put("level", "INFO");
+                String text = serializer.apply(data);
+                this.logger.info(text);
+                return null;
+            });
+        }
+    }
+
+    /**
      * Generalized log entry
      * @param template Instance of LogTemplate
      * @param args Corresponding objects that the template applied
      */
     public void generalLogMessage(LogTemplate template, Object ...args) {
         processor.apply(template.getContent()).apply(args);
+    }
+
+    private void innerLogDataMap(Object ...args) {
+        processor.apply("").apply(args);
+    }
+
+    public void logDataMap(Map<String, String> dataMap) {
+        this.innerLogDataMap(dataMap);
     }
 
     public void customLogMessage(String template, Object ...args) {

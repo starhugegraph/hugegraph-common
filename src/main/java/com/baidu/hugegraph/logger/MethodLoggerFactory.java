@@ -19,6 +19,9 @@
 package com.baidu.hugegraph.logger;
 
 import javax.inject.Singleton;
+
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +51,8 @@ public class MethodLoggerFactory {
     private static final Map<String,
             MethodLogger<? extends GraphLogLevel>> ERROR_LOGGER_MAP
             = new HashMap<>();
+
+    private static final Gson GSON = new Gson();
 
 
     /**
@@ -117,4 +122,43 @@ public class MethodLoggerFactory {
         }
         return tMethodLogger;
     }
+
+    /**
+     * Use custom serialize to generate audit logger
+     * @param <T> level
+     * @param level
+     * @param target targetClass in message
+     * @param appenderName appenderName that appender inspected
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static <T extends GraphLogLevel> MethodLogger<T>
+        getAuditLogger(Class<T> level, Class<?> target, String appenderName) {
+                MethodLogger<T> tMethodLogger = null;
+                if (level.equals(MethodLogger.LevelWarn.class)) {
+                        tMethodLogger = (MethodLogger<T>) WARN_LOGGER_MAP
+                                .computeIfAbsent(
+                                        appenderName,
+                                        v -> new MethodLogger<T>(
+                                                level,
+                                                target,
+                                                appenderName,
+                                                (dataMap) -> 
+                                                        GSON.toJson(dataMap)
+                                                ));
+                } else {
+                        tMethodLogger = (MethodLogger<T>) INFO_LOGGER_MAP
+                                .computeIfAbsent(
+                                        appenderName,
+                                        v -> new MethodLogger<T>(
+                                                level,
+                                                target,
+                                                appenderName,
+                                                (dataMap) -> 
+                                                        GSON.toJson(dataMap)
+                                                ));
+                }
+
+                return tMethodLogger;
+        }
 }
