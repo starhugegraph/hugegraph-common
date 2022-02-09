@@ -25,6 +25,17 @@ import com.google.common.collect.ImmutableMap;
 
 /**
  * Provide Audit related log methods
+ * Compulsory items of audit log:
+ *                         "audit_operation": "", //操作
+                        "audit_datetime": "", //时间
+                        "audit_service": "", // 服务
+                        "audit_graphspace": "", // 图空间
+                        "audit_graph": "", // 图
+                        "audit_level": "", // 安全界别
+                        "audit_user": "", // 用户
+                        "audit_ip": "", // 用户ip
+                        "audit_result": "", // 操作结果
+ * 
  * @author Scorpiour
  * @since 2021-12-21
  */
@@ -34,7 +45,7 @@ public class AuditLogger {
     private final MethodLogger<MethodLogger.LevelWarn> warnLogger;
 
     private static final String AUDIT_LOG_APPENDER_NAME = "audit-log-appender";
-    private static final String ACTION_PATTERN = "action";
+    private static final String ACTION_PATTERN = "audit_operation";
 
     public AuditLogger(Class<?> targetType) {
 
@@ -63,7 +74,7 @@ public class AuditLogger {
             = ImmutableMap.of(
                 ACTION_PATTERN, LogTemplate.CREATE_USER.name(),
                 "userId", userId,
-                "creatorId", creatorId);
+                "audit_user", creatorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -78,7 +89,7 @@ public class AuditLogger {
             = ImmutableMap.of(
                 ACTION_PATTERN, LogTemplate.UPDATE_USER.name(),
                 "userId", userId,
-                "executorId", executorId);
+                "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -93,7 +104,97 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.DELETE_USER.name(),
             "userId", userId,
-            "executorId", executorId);
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Create graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logCreateGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Manage graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logUpdateGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Manage graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logManageGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.MANAGE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Clear graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logClearGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CLEAR_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Clear graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logRemoveGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.REMOVE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -108,7 +209,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.CREATE_GROUP.name(),
             "groupId", groupId,
-            "creatorId", creatorId);
+            "audit_user", creatorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -123,7 +224,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.UPDATE_GROUP.name(),
             "groupId", groupId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -138,7 +239,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.DELETE_GROUP.name(),
             "groupId", groupId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -153,7 +254,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.CREATE_ROLE.name(),
             "roleId", roleId,
-            "creatorId", creatorId);
+            "audit_user", creatorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -168,7 +269,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.UPDATE_ROLE.name(),
             "roleId", roleId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -183,7 +284,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.DELETE_ROLE.name(),
             "roleId", roleId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -239,7 +340,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.EXPORT_ROLE.name(),
             "roleId", roleId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -309,7 +410,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.USER_DISPOSE.name(),
             "userId", userId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -324,7 +425,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.USER_LOCK.name(),
             "userId", userId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -339,7 +440,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.USER_UNLOCK.name(),
             "userId", userId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -387,7 +488,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.CREATE_USER_GROUP.name(),
             "userGroupId", groupId,
-            "executorId", creatorId);
+            "audit_user", creatorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -402,7 +503,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.UPDATE_USER_GROUP.name(),
             "userGroupId", groupId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -417,7 +518,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.DELETE_USER_GROUP.name(),
             "userGroupId", groupId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -447,7 +548,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.CREATE_TENANT.name(),
             "graphSpace", graphSpace,
-            "executorId", creatorId);
+            "audit_user", creatorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -462,7 +563,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.UPDATE_TENANT.name(),
             "graphSpace", graphSpace,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -477,7 +578,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.REMOVE_TENANT.name(),
             "graphSpace", graphSpace,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -491,7 +592,7 @@ public class AuditLogger {
         Map<String, String> dataMap
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.SYNC_CLUSTER_CONFIG.name(),
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -506,7 +607,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.SYNC_OPS_COMMAND .name(),
             "command", cmdKey,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -521,7 +622,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.ASYNC_OPS_COMMAND.name(),
             "command", cmdKey,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -536,7 +637,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.IMPORT_CERT_LICENSE.name(),
             "licenseType", licenseType,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -633,7 +734,7 @@ public class AuditLogger {
         Map<String, String> dataMap
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.EXPORT_SERVICE_LOG.name(),
-            "executorId", executorId,
+            "audit_user", executorId,
             "serviceId", serviceId);
         infoLogger
         .logDataMap(dataMap);
@@ -676,7 +777,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.CREATE_INSTANCE.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -690,7 +791,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.DELETE_INSTANCE.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -704,7 +805,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.START_INSTANCE.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -718,7 +819,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.STOP_INSTANCE.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         warnLogger
         .logDataMap(dataMap);
     }
@@ -732,7 +833,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.RESTART_INSTANCE.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         warnLogger
         .logDataMap(dataMap);
     }
@@ -747,7 +848,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.SYNC_INSTANCE_CONFIG.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -792,7 +893,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             ACTION_PATTERN, LogTemplate.EXPORT_INSTANCE_LOG.name(),
             "instanceId", instanceId,
-            "executorId", executorId);
+            "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
     }

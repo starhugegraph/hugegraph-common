@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.google.common.collect.Maps;
+
 /**
  * MethodLogger is to apply log on method level for each scenario
  * @param <T>
@@ -107,50 +109,55 @@ public class MethodLogger<T extends GraphLogLevel> {
         if (type.equals(LevelInfo.class)) {
             processor = (String s) -> ((Object... args) -> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
-                data.put("targetClass", targetClazz.getName());
-                data.put("timestamp", new Date().toString());
-                data.put("level", "INFO");
-                String text = serializer.apply(data);
+                Map<String, String> appended = Maps.newHashMap(data);
+                appended.putIfAbsent("audit_target", targetClazz.getName());
+                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_level", "INFO");
+                String text = serializer.apply(appended);
                 this.logger.info(text);
                 return null;
             });
         } else if (type.equals(LevelDebug.class)) {
             processor = (String s) -> ((Object... args) -> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
-                data.put("targetClass", targetClazz.getName());
-                data.put("timestamp", new Date().toString());
-                data.put("level", "DEBUG");
-                String text = serializer.apply(data);
+                Map<String, String> appended = Maps.newHashMap(data);
+                appended.putIfAbsent("audit_target", targetClazz.getName());
+                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_level", "INFO");
+                String text = serializer.apply(appended);
                 this.logger.debug(text);
                 return null;
             });
         } else if (type.equals(LevelError.class)) {
             processor = (String s) -> ((Object... args) -> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
-                data.put("targetClass", targetClazz.getName());
-                data.put("timestamp", new Date().toString());
-                data.put("level", "ERROR");
-                String text = serializer.apply(data);
+                Map<String, String> appended = Maps.newHashMap(data);
+                appended.putIfAbsent("audit_target", targetClazz.getName());
+                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_level", "INFO");
+                String text = serializer.apply(appended);
                 this.logger.error(text);
                 return null;
             });
         } else if (type.equals(LevelWarn.class)) {
             processor = (String s) -> ((Object... args) -> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
-                data.put("targetClass", targetClazz.getName());
-                data.put("timestamp", new Date().toString());
-                data.put("level", "WARN");
-                String text = serializer.apply(data);
+                Map<String, String> appended = Maps.newHashMap(data);
+                appended.putIfAbsent("audit_target", targetClazz.getName());
+                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit level", "INFO");
+                String text = serializer.apply(appended);
                 this.logger.warn(text);
                 return null;
             });
         } else if (type.equals(LevelTrace.class)) {
             processor = (String s) -> ((Object... args) -> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
-                data.put("targetClass", targetClazz.getName());
-                data.put("timestamp", new Date().toString());
-                data.put("level", "TRACE");
-                String text = serializer.apply(data);
+                Map<String, String> appended = Maps.newHashMap(data);
+                appended.putIfAbsent("audit_target", targetClazz.getName());
+                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_level", "INFO");
+                String text = serializer.apply(appended);
                 this.logger.trace(text);
                 return null;
             });
@@ -162,10 +169,11 @@ public class MethodLogger<T extends GraphLogLevel> {
             );
             processor = (String s) -> ((Object... args) -> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
-                data.put("targetClass", targetClazz.getName());
-                data.put("timestamp", new Date().toString());
-                data.put("level", "INFO");
-                String text = serializer.apply(data);
+                Map<String, String> appended = Maps.newHashMap(data);
+                appended.putIfAbsent("audit_target", targetClazz.getName());
+                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_level", "INFO");
+                String text = serializer.apply(appended);
                 this.logger.info(text);
                 return null;
             });
