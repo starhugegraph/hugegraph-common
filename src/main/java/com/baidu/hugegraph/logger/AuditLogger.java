@@ -26,7 +26,8 @@ import com.google.common.collect.ImmutableMap;
 /**
  * Provide Audit related log methods
  * Compulsory items of audit log:
- *                      "audit_operation": "", //操作
+                        "audit_operation": "", //操作分类
+                        "audit_action": "", // 详情
                         "audit_datetime": "", //时间
                         "audit_service": "", // 服务
                         "audit_graphspace": "", // 图空间
