@@ -76,6 +76,9 @@ public enum LogTemplate {
     MANAGE_GRAPH(
         "MANAGE_GRAPH",
         "[SERVER] Manage graphs with {}"),
+    UPDATE_GRAPH(
+        "UPDATE_GRAPH",
+        "[SERVER] Update graph by {}"),
     
     CREATE_SNAPSHOT(
         "CREATE_SNAPSHOT",

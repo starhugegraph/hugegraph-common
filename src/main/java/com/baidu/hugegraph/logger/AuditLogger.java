@@ -19,8 +19,23 @@
 
 package com.baidu.hugegraph.logger;
 
+import java.util.Map;
+
+import com.google.common.collect.ImmutableMap;
+
 /**
  * Provide Audit related log methods
+ * Compulsory items of audit log:
+ *                         "audit_operation": "", //操作
+                        "audit_datetime": "", //时间
+                        "audit_service": "", // 服务
+                        "audit_graphspace": "", // 图空间
+                        "audit_graph": "", // 图
+                        "audit_level": "", // 安全界别
+                        "audit_user": "", // 用户
+                        "audit_ip": "", // 用户ip
+                        "audit_result": "", // 操作结果
+ * 
  * @author Scorpiour
  * @since 2021-12-21
  */
@@ -29,13 +44,22 @@ public class AuditLogger {
     private final MethodLogger<MethodLogger.LevelInfo> infoLogger;
     private final MethodLogger<MethodLogger.LevelWarn> warnLogger;
 
+    private static final String AUDIT_LOG_APPENDER_NAME = "audit-log-appender";
+    private static final String ACTION_PATTERN = "audit_operation";
+
     public AuditLogger(Class<?> targetType) {
 
         infoLogger = MethodLoggerFactory
-                .getMethodLogger(MethodLogger.LevelInfo.class, targetType);
+                .getAuditLogger(
+                    MethodLogger.LevelInfo.class,
+                    targetType,
+                    AUDIT_LOG_APPENDER_NAME);
 
         warnLogger = MethodLoggerFactory
-                .getMethodLogger(MethodLogger.LevelWarn.class, targetType);
+                .getAuditLogger(
+                    MethodLogger.LevelWarn.class,
+                    targetType,
+                    AUDIT_LOG_APPENDER_NAME);
     }
 
     
@@ -46,8 +70,13 @@ public class AuditLogger {
      * @param creatorId
      */
     public void logCreateUser(String userId, String creatorId) {
+        Map<String, String> dataMap
+            = ImmutableMap.of(
+                ACTION_PATTERN, LogTemplate.CREATE_USER.name(),
+                "userId", userId,
+                "audit_user", creatorId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_USER, userId, creatorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -56,8 +85,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUpdateUser(String userId, String executorId) {
+        Map<String, String> dataMap
+            = ImmutableMap.of(
+                ACTION_PATTERN, LogTemplate.UPDATE_USER.name(),
+                "userId", userId,
+                "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_USER, userId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -66,8 +100,103 @@ public class AuditLogger {
      * @param executorId
      */
     public void logDeleteUser(String userId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_USER.name(),
+            "userId", userId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.DELETE_USER, userId, executorId);
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Create graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logCreateGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Manage graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logUpdateGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Manage graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logManageGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.MANAGE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Clear graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logClearGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CLEAR_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
+    }
+
+    /**
+     * Clear graph
+     * @param graphSpace
+     * @param graphName
+     * @param executorId
+     */
+    public void logRemoveGraph(
+        String graphSpace, String graphName, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.REMOVE_GRAPH.name(),
+            "audit_graph_space", graphSpace,
+            "audit_graph", graphName,
+            "audit_user", executorId);
+        infoLogger
+        .logDataMap(dataMap);
     }
 
     /**
@@ -76,8 +205,13 @@ public class AuditLogger {
      * @param creator
      */
     public void logCreateGroup(String groupId, String creatorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_GROUP.name(),
+            "groupId", groupId,
+            "audit_user", creatorId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_GROUP, groupId, creatorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -86,8 +220,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUpdateGroup(String groupId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_GROUP.name(),
+            "groupId", groupId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_GROUP, groupId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -96,8 +235,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logDeleteGroup(String groupId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_GROUP.name(),
+            "groupId", groupId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.DELETE_GROUP, groupId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -106,8 +250,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logCreateRole(String roleId, String creatorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_ROLE.name(),
+            "roleId", roleId,
+            "audit_user", creatorId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_ROLE, roleId, creatorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -116,8 +265,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUpdateRole(String roleId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_ROLE.name(),
+            "roleId", roleId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_ROLE, roleId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -126,8 +280,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logDeleteRole(String roleId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_ROLE.name(),
+            "roleId", roleId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.DELETE_ROLE, roleId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -136,8 +295,13 @@ public class AuditLogger {
      * @param roleId
      */
     public void logCreateRefRole(String refRoleId, String roleId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_REF_ROLE.name(),
+            "refRoleId", refRoleId,
+            "roleId", roleId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_REF_ROLE, refRoleId, roleId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -145,8 +309,12 @@ public class AuditLogger {
      * @param refRoleId
      */
     public void logUpdateRefRole(String refRoleId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_REF_ROLE.name(),
+            "refRoleId", refRoleId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_REF_ROLE, refRoleId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -154,8 +322,12 @@ public class AuditLogger {
      * @param refRoleId
      */
     public void logDeleteRefRole(String refRoleId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_REF_ROLE.name(),
+            "refRoleId", refRoleId);
         infoLogger
-        .generalLogMessage(LogTemplate.DELETE_REF_ROLE, refRoleId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -164,8 +336,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logExportRole(String roleId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.EXPORT_ROLE.name(),
+            "roleId", roleId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.EXPORT_ROLE, roleId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -173,8 +350,12 @@ public class AuditLogger {
      * @param userId
      */
     public void logUpdatePassword(String userId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_PASSWORD.name(),
+            "userId", userId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_PASSWORD, userId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -182,8 +363,12 @@ public class AuditLogger {
      * @param userId
      */
     public void logResetPassword(String userId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.RESET_PASSWORD.name(),
+            "userId", userId);
         infoLogger
-        .generalLogMessage(LogTemplate.RESET_PASSWORD, userId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -192,8 +377,14 @@ public class AuditLogger {
      * @param deviceInfo
      */
     public void logUserLogin(String userId, String deviceInfo, String path) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.USER_LOGIN.name(),
+            "userId", userId,
+            "deviceInfo", deviceInfo,
+            "path", path);
         infoLogger
-        .generalLogMessage(LogTemplate.USER_LOGIN, userId, deviceInfo, path);
+        .logDataMap(dataMap);
     }
     
     /**
@@ -201,8 +392,12 @@ public class AuditLogger {
      * @param userId
      */
     public void logUserLogout(String userId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_USER.name(),
+            "userId", userId);
         infoLogger
-        .generalLogMessage(LogTemplate.USER_LOGOUT, userId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -211,8 +406,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUserDisposed(String userId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.USER_DISPOSE.name(),
+            "userId", userId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.USER_DISPOSE, userId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -221,8 +421,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUserLocked(String userId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.USER_LOCK.name(),
+            "userId", userId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.USER_LOCK, userId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -231,8 +436,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUserUnlocked(String userId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.USER_UNLOCK.name(),
+            "userId", userId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.USER_UNLOCK, userId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -243,10 +453,16 @@ public class AuditLogger {
      */
     public void logUserAccessDenied(
         String userId, String access, Object resourceObject) {
+    
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.USER_ACCESS_DENIED.name(),
+            "userId", userId,
+            "access", access,
+            "resource", resourceObject.toString());
+            
         warnLogger
-        .generalLogMessage(
-            LogTemplate.USER_ACCESS_DENIED,
-            userId, access, resourceObject);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -254,8 +470,12 @@ public class AuditLogger {
      * @param userId
      */
     public void logUserGenerateAuthKey(String userId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.GENERATE_AUTH_KEY.name(),
+            "userId", userId);
         infoLogger
-        .generalLogMessage(LogTemplate.GENERATE_AUTH_KEY, userId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -264,8 +484,13 @@ public class AuditLogger {
      * @param creatorId
      */
     public void logCreateUserGroup(String groupId, String creatorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_USER_GROUP.name(),
+            "userGroupId", groupId,
+            "audit_user", creatorId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_USER_GROUP, groupId, creatorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -274,8 +499,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logUpdateUserGroup(String groupId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_USER_GROUP.name(),
+            "userGroupId", groupId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_USER_GROUP, groupId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -284,49 +514,73 @@ public class AuditLogger {
      * @param executorId
      */
     public void logDeleteUserGroup(String groupId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_USER_GROUP.name(),
+            "userGroupId", groupId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.DELETE_USER_GROUP, groupId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**** Tenant related logs ****/
 
     /**
-     * Update tenant config
-     * @param tenantId
+     * Update tenant config - GraphSpace
+     * @param graphSpace
      */
-    public void logUpdateTenantConfig(String tenantId) {
+    public void logUpdateTenantConfig(String graphSpace) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_TENANT_CONFIG.name(),
+            "graphSpace", graphSpace);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_TENANT_CONFIG, tenantId);
+        .logDataMap(dataMap);
     }
 
     /**
      * Create new tenant
-     * @param tenantId
+     * @param graphSpace
      * @param creatorId
      */
-    public void logCreateTenant(String tenantId, String creatorId) {
+    public void logCreateTenant(String graphSpace, String creatorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_TENANT.name(),
+            "graphSpace", graphSpace,
+            "audit_user", creatorId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_TENANT, tenantId, creatorId);
+        .logDataMap(dataMap);
     }
 
     /**
      * Update tenant
-     * @param tenantId
+     * @param graphSpace
      * @param executorId
      */
-    public void logUpdateTenant(String tenantId, String executorId) {
+    public void logUpdateTenant(String graphSpace, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.UPDATE_TENANT.name(),
+            "graphSpace", graphSpace,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.UPDATE_TENANT, tenantId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
      * Remove tenant, not delete
-     * @param tenantId
+     * @param graphSpace
      * @param executorId
      */
-    public void logRemoveTenant(String tenantId, String executorId) {
+    public void logRemoveTenant(String graphSpace, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.REMOVE_TENANT.name(),
+            "graphSpace", graphSpace,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.REMOVE_TENANT, tenantId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**** Cluster related logs ****/
@@ -335,8 +589,12 @@ public class AuditLogger {
      * @param executorId
      */
     public void logSyncClusterConfig(String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.SYNC_CLUSTER_CONFIG.name(),
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.SYNC_CLUSTER_CONFIG, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -345,8 +603,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logProcessSyncCmd(String cmdKey, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.SYNC_OPS_COMMAND .name(),
+            "command", cmdKey,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.SYNC_OPS_COMMAND, cmdKey, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -355,8 +618,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logProcessAsyncCmd(String cmdKey, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.ASYNC_OPS_COMMAND.name(),
+            "command", cmdKey,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.ASYNC_OPS_COMMAND, cmdKey, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -365,11 +633,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logImportLicense(String licenseType, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.IMPORT_CERT_LICENSE.name(),
+            "licenseType", licenseType,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(
-            LogTemplate.IMPORT_CERT_LICENSE,
-            licenseType,
-            executorId);
+        .logDataMap(dataMap);
     }
 
     /**** Service related logs ****/
@@ -379,8 +649,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logAddService(String serviceId, String instanceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.ADD_SERVICE.name(),
+            "serviceId", serviceId,
+            "instanceId", instanceId);
         infoLogger
-        .generalLogMessage(LogTemplate.ADD_SERVICE, serviceId, instanceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -389,8 +664,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logRemoveService(String serviceId, String instanceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.REMOVE_SERVICE.name(),
+            "serviceId", serviceId,
+            "instanceId", instanceId);
         infoLogger
-        .generalLogMessage(LogTemplate.REMOVE_SERVICE, serviceId, instanceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -398,8 +678,12 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logStartService(String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.START_SERVICE.name(),
+            "serviceId", serviceId);
         infoLogger
-        .generalLogMessage(LogTemplate.START_SERVICE, serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -407,8 +691,12 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logStopService(String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.STOP_SERVICE.name(),
+            "serviceId", serviceId);
         warnLogger
-        .generalLogMessage(LogTemplate.STOP_SERVICE, serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -416,8 +704,12 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logRestartService(String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.RESTART_SERVICE.name(),
+            "serviceId", serviceId);
         warnLogger
-        .generalLogMessage(LogTemplate.RESTART_SERVICE, serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -425,8 +717,12 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logSyncServiceConfig(String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.SYNC_SERVICE_CONFIG.name(),
+            "serviceId", serviceId);
         infoLogger
-        .generalLogMessage(LogTemplate.SYNC_SERVICE_CONFIG, serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -435,9 +731,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logExportServiceLog(String serviceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.EXPORT_SERVICE_LOG.name(),
+            "audit_user", executorId,
+            "serviceId", serviceId);
         infoLogger
-        .generalLogMessage(
-            LogTemplate.EXPORT_SERVICE_LOG, serviceId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -445,17 +745,26 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logStartHealthCheck(String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.SERVICE_HEALTH_CHECK_START.name(),
+            "serviceId", serviceId);
         infoLogger
-        .generalLogMessage(LogTemplate.SERVICE_HEALTH_CHECK_START, serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
      * Finalize health check
      * @param serviceId
      */
-    public void logFinalizeHealthCheck(String serviceId) {
+    public void logFinalizeHealthCheck(String serviceId, String result) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.SERVICE_HEALTH_CHECK_RESULT.name(),
+            "serviceId", serviceId,
+            "result", result);
         infoLogger
-        .generalLogMessage(LogTemplate.SERVICE_HEALTH_CHECK_RESULT, serviceId);
+        .logDataMap(dataMap);
     }
 
     /**** Instance related logs ****/
@@ -464,8 +773,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logCreateInstance(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.CREATE_INSTANCE.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.CREATE_INSTANCE, instanceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -473,9 +787,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logDeleteInstance(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.DELETE_INSTANCE.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(
-            LogTemplate.DELETE_INSTANCE, instanceId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -483,9 +801,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logStartInstance(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.START_INSTANCE.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(
-            LogTemplate.START_INSTANCE, instanceId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -493,9 +815,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logStopInstance(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.STOP_INSTANCE.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         warnLogger
-        .generalLogMessage(
-            LogTemplate.STOP_INSTANCE, instanceId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -503,9 +829,13 @@ public class AuditLogger {
      * @param instanceId
      */
     public void logRestartInstance(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.RESTART_INSTANCE.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         warnLogger
-        .generalLogMessage(
-            LogTemplate.RESTART_INSTANCE, instanceId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -514,9 +844,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logSyncInstanceConfig(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.SYNC_INSTANCE_CONFIG.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(
-            LogTemplate.SYNC_INSTANCE_CONFIG, instanceId, executorId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -525,11 +859,13 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logProvideService(String instanceId, String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.INSTANCE_PROVIDE_SERVICE.name(),
+            "instanceId", instanceId,
+            "serviceId", serviceId);
         infoLogger
-        .generalLogMessage(
-            LogTemplate.INSTANCE_PROVIDE_SERVICE,
-            instanceId,
-            serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -538,11 +874,13 @@ public class AuditLogger {
      * @param serviceId
      */
     public void logWithdrawService(String instanceId, String serviceId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.INSTANCE_WITHDRAW_SERVICE.name(),
+            "instanceId", instanceId,
+            "serviceId", serviceId);
         warnLogger
-        .generalLogMessage(
-            LogTemplate.INSTANCE_WITHDRAW_SERVICE,
-            instanceId,
-            serviceId);
+        .logDataMap(dataMap);
     }
 
     /**
@@ -551,8 +889,13 @@ public class AuditLogger {
      * @param executorId
      */
     public void logExportInstanceLog(String instanceId, String executorId) {
+        Map<String, String> dataMap
+        = ImmutableMap.of(
+            ACTION_PATTERN, LogTemplate.EXPORT_INSTANCE_LOG.name(),
+            "instanceId", instanceId,
+            "audit_user", executorId);
         infoLogger
-        .generalLogMessage(LogTemplate.EXPORT_INSTANCE_LOG, executorId);
+        .logDataMap(dataMap);
     }
 
     /**** Host related logs ****/
