@@ -26,7 +26,7 @@ import com.google.common.collect.ImmutableMap;
 /**
  * Provide Audit related log methods
  * Compulsory items of audit log:
- *                         "audit_operation": "", //操作
+ *                      "audit_operation": "", //操作
                         "audit_datetime": "", //时间
                         "audit_service": "", // 服务
                         "audit_graphspace": "", // 图空间
@@ -45,7 +45,8 @@ public class AuditLogger {
     private final MethodLogger<MethodLogger.LevelWarn> warnLogger;
 
     private static final String AUDIT_LOG_APPENDER_NAME = "audit-log-appender";
-    private static final String ACTION_PATTERN = "audit_operation";
+    private static final String OPERATION_PATTERN = "audit_operation";
+    private static final String ACTION_PATTERN = "audit_action";
 
     public AuditLogger(Class<?> targetType) {
 
@@ -72,6 +73,7 @@ public class AuditLogger {
     public void logCreateUser(String userId, String creatorId) {
         Map<String, String> dataMap
             = ImmutableMap.of(
+                OPERATION_PATTERN, AuditOperationEnum.USER.name(),
                 ACTION_PATTERN, LogTemplate.CREATE_USER.name(),
                 "userId", userId,
                 "audit_user", creatorId);
@@ -87,6 +89,7 @@ public class AuditLogger {
     public void logUpdateUser(String userId, String executorId) {
         Map<String, String> dataMap
             = ImmutableMap.of(
+                OPERATION_PATTERN, AuditOperationEnum.USER.name(),
                 ACTION_PATTERN, LogTemplate.UPDATE_USER.name(),
                 "userId", userId,
                 "audit_user", executorId);
@@ -102,6 +105,7 @@ public class AuditLogger {
     public void logDeleteUser(String userId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_USER.name(),
             "userId", userId,
             "audit_user", executorId);
@@ -119,6 +123,7 @@ public class AuditLogger {
         String graphSpace, String graphName, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.CREATE_GRAPH.name(),
             "audit_graph_space", graphSpace,
             "audit_graph", graphName,
@@ -137,6 +142,7 @@ public class AuditLogger {
         String graphSpace, String graphName, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_GRAPH.name(),
             "audit_graph_space", graphSpace,
             "audit_graph", graphName,
@@ -155,6 +161,7 @@ public class AuditLogger {
         String graphSpace, String graphName, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.MANAGE_GRAPH.name(),
             "audit_graph_space", graphSpace,
             "audit_graph", graphName,
@@ -173,6 +180,7 @@ public class AuditLogger {
         String graphSpace, String graphName, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.CLEAR_GRAPH.name(),
             "audit_graph_space", graphSpace,
             "audit_graph", graphName,
@@ -191,6 +199,7 @@ public class AuditLogger {
         String graphSpace, String graphName, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.REMOVE_GRAPH.name(),
             "audit_graph_space", graphSpace,
             "audit_graph", graphName,
@@ -207,6 +216,7 @@ public class AuditLogger {
     public void logCreateGroup(String groupId, String creatorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.CREATE_GROUP.name(),
             "groupId", groupId,
             "audit_user", creatorId);
@@ -222,6 +232,7 @@ public class AuditLogger {
     public void logUpdateGroup(String groupId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_GROUP.name(),
             "groupId", groupId,
             "audit_user", executorId);
@@ -237,6 +248,7 @@ public class AuditLogger {
     public void logDeleteGroup(String groupId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_GROUP.name(),
             "groupId", groupId,
             "audit_user", executorId);
@@ -252,6 +264,7 @@ public class AuditLogger {
     public void logCreateRole(String roleId, String creatorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.CREATE_ROLE.name(),
             "roleId", roleId,
             "audit_user", creatorId);
@@ -267,6 +280,7 @@ public class AuditLogger {
     public void logUpdateRole(String roleId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_ROLE.name(),
             "roleId", roleId,
             "audit_user", executorId);
@@ -282,6 +296,7 @@ public class AuditLogger {
     public void logDeleteRole(String roleId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_ROLE.name(),
             "roleId", roleId,
             "audit_user", executorId);
@@ -297,6 +312,7 @@ public class AuditLogger {
     public void logCreateRefRole(String refRoleId, String roleId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.CREATE_REF_ROLE.name(),
             "refRoleId", refRoleId,
             "roleId", roleId);
@@ -311,6 +327,7 @@ public class AuditLogger {
     public void logUpdateRefRole(String refRoleId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_REF_ROLE.name(),
             "refRoleId", refRoleId);
         infoLogger
@@ -324,6 +341,7 @@ public class AuditLogger {
     public void logDeleteRefRole(String refRoleId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_REF_ROLE.name(),
             "refRoleId", refRoleId);
         infoLogger
@@ -338,6 +356,7 @@ public class AuditLogger {
     public void logExportRole(String roleId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.EXPORT_ROLE.name(),
             "roleId", roleId,
             "audit_user", executorId);
@@ -352,6 +371,7 @@ public class AuditLogger {
     public void logUpdatePassword(String userId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_PASSWORD.name(),
             "userId", userId);
         infoLogger
@@ -365,6 +385,7 @@ public class AuditLogger {
     public void logResetPassword(String userId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.RESET_PASSWORD.name(),
             "userId", userId);
         infoLogger
@@ -379,6 +400,7 @@ public class AuditLogger {
     public void logUserLogin(String userId, String deviceInfo, String path) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_LOGIN.name(),
             "userId", userId,
             "deviceInfo", deviceInfo,
@@ -394,6 +416,7 @@ public class AuditLogger {
     public void logUserLogout(String userId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_USER.name(),
             "userId", userId);
         infoLogger
@@ -408,6 +431,7 @@ public class AuditLogger {
     public void logUserDisposed(String userId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_DISPOSE.name(),
             "userId", userId,
             "audit_user", executorId);
@@ -423,6 +447,7 @@ public class AuditLogger {
     public void logUserLocked(String userId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_LOCK.name(),
             "userId", userId,
             "audit_user", executorId);
@@ -438,6 +463,7 @@ public class AuditLogger {
     public void logUserUnlocked(String userId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_UNLOCK.name(),
             "userId", userId,
             "audit_user", executorId);
@@ -456,6 +482,7 @@ public class AuditLogger {
     
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_ACCESS_DENIED.name(),
             "userId", userId,
             "access", access,
@@ -472,6 +499,7 @@ public class AuditLogger {
     public void logUserGenerateAuthKey(String userId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.GENERATE_AUTH_KEY.name(),
             "userId", userId);
         infoLogger
@@ -486,6 +514,7 @@ public class AuditLogger {
     public void logCreateUserGroup(String groupId, String creatorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.CREATE_USER_GROUP.name(),
             "userGroupId", groupId,
             "audit_user", creatorId);
@@ -501,6 +530,7 @@ public class AuditLogger {
     public void logUpdateUserGroup(String groupId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_USER_GROUP.name(),
             "userGroupId", groupId,
             "audit_user", executorId);
@@ -516,6 +546,7 @@ public class AuditLogger {
     public void logDeleteUserGroup(String groupId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_USER_GROUP.name(),
             "userGroupId", groupId,
             "audit_user", executorId);
@@ -532,6 +563,7 @@ public class AuditLogger {
     public void logUpdateTenantConfig(String graphSpace) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_TENANT_CONFIG.name(),
             "graphSpace", graphSpace);
         infoLogger
@@ -546,6 +578,7 @@ public class AuditLogger {
     public void logCreateTenant(String graphSpace, String creatorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.CREATE_TENANT.name(),
             "graphSpace", graphSpace,
             "audit_user", creatorId);
@@ -561,6 +594,7 @@ public class AuditLogger {
     public void logUpdateTenant(String graphSpace, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_TENANT.name(),
             "graphSpace", graphSpace,
             "audit_user", executorId);
@@ -576,6 +610,7 @@ public class AuditLogger {
     public void logRemoveTenant(String graphSpace, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.REMOVE_TENANT.name(),
             "graphSpace", graphSpace,
             "audit_user", executorId);
@@ -591,6 +626,7 @@ public class AuditLogger {
     public void logSyncClusterConfig(String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.SYNC_CLUSTER_CONFIG.name(),
             "audit_user", executorId);
         infoLogger
@@ -605,6 +641,7 @@ public class AuditLogger {
     public void logProcessSyncCmd(String cmdKey, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.SYNC_OPS_COMMAND .name(),
             "command", cmdKey,
             "audit_user", executorId);
@@ -620,6 +657,7 @@ public class AuditLogger {
     public void logProcessAsyncCmd(String cmdKey, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.ASYNC_OPS_COMMAND.name(),
             "command", cmdKey,
             "audit_user", executorId);
@@ -635,6 +673,7 @@ public class AuditLogger {
     public void logImportLicense(String licenseType, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.IMPORT_CERT_LICENSE.name(),
             "licenseType", licenseType,
             "audit_user", executorId);
@@ -651,6 +690,7 @@ public class AuditLogger {
     public void logAddService(String serviceId, String instanceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.ADD_SERVICE.name(),
             "serviceId", serviceId,
             "instanceId", instanceId);
@@ -666,6 +706,7 @@ public class AuditLogger {
     public void logRemoveService(String serviceId, String instanceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.REMOVE_SERVICE.name(),
             "serviceId", serviceId,
             "instanceId", instanceId);
@@ -680,6 +721,7 @@ public class AuditLogger {
     public void logStartService(String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.START_SERVICE.name(),
             "serviceId", serviceId);
         infoLogger
@@ -693,6 +735,7 @@ public class AuditLogger {
     public void logStopService(String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.STOP_SERVICE.name(),
             "serviceId", serviceId);
         warnLogger
@@ -706,6 +749,7 @@ public class AuditLogger {
     public void logRestartService(String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.RESTART_SERVICE.name(),
             "serviceId", serviceId);
         warnLogger
@@ -719,6 +763,7 @@ public class AuditLogger {
     public void logSyncServiceConfig(String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.SYNC_SERVICE_CONFIG.name(),
             "serviceId", serviceId);
         infoLogger
@@ -733,6 +778,7 @@ public class AuditLogger {
     public void logExportServiceLog(String serviceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.EXPORT_SERVICE_LOG.name(),
             "audit_user", executorId,
             "serviceId", serviceId);
@@ -747,6 +793,7 @@ public class AuditLogger {
     public void logStartHealthCheck(String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.SERVICE_HEALTH_CHECK_START.name(),
             "serviceId", serviceId);
         infoLogger
@@ -760,6 +807,7 @@ public class AuditLogger {
     public void logFinalizeHealthCheck(String serviceId, String result) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.SERVICE_HEALTH_CHECK_RESULT.name(),
             "serviceId", serviceId,
             "result", result);
@@ -775,6 +823,7 @@ public class AuditLogger {
     public void logCreateInstance(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.CREATE_INSTANCE.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
@@ -789,6 +838,7 @@ public class AuditLogger {
     public void logDeleteInstance(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.DELETE_INSTANCE.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
@@ -803,6 +853,7 @@ public class AuditLogger {
     public void logStartInstance(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.START_INSTANCE.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
@@ -817,6 +868,7 @@ public class AuditLogger {
     public void logStopInstance(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.STOP_INSTANCE.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
@@ -831,6 +883,7 @@ public class AuditLogger {
     public void logRestartInstance(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.RESTART_INSTANCE.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
@@ -846,6 +899,7 @@ public class AuditLogger {
     public void logSyncInstanceConfig(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.SYNC_INSTANCE_CONFIG.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
@@ -861,6 +915,7 @@ public class AuditLogger {
     public void logProvideService(String instanceId, String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.INSTANCE_PROVIDE_SERVICE.name(),
             "instanceId", instanceId,
             "serviceId", serviceId);
@@ -876,6 +931,7 @@ public class AuditLogger {
     public void logWithdrawService(String instanceId, String serviceId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SERVICE.name(),
             ACTION_PATTERN, LogTemplate.INSTANCE_WITHDRAW_SERVICE.name(),
             "instanceId", instanceId,
             "serviceId", serviceId);
@@ -891,6 +947,7 @@ public class AuditLogger {
     public void logExportInstanceLog(String instanceId, String executorId) {
         Map<String, String> dataMap
         = ImmutableMap.of(
+            OPERATION_PATTERN, AuditOperationEnum.SYSTEM.name(),
             ACTION_PATTERN, LogTemplate.EXPORT_INSTANCE_LOG.name(),
             "instanceId", instanceId,
             "audit_user", executorId);
