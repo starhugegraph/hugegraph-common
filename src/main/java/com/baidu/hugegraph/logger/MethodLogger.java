@@ -22,6 +22,7 @@ package com.baidu.hugegraph.logger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -41,6 +42,7 @@ public class MethodLogger<T extends GraphLogLevel> {
     public static class LevelError implements GraphLogLevel { }
 
     private final Function<String, Function<Object[], Void>> processor;
+    private final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
     private final Logger logger;
 
@@ -111,7 +113,7 @@ public class MethodLogger<T extends GraphLogLevel> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
                 Map<String, String> appended = Maps.newHashMap(data);
                 appended.putIfAbsent("audit_target", targetClazz.getName());
-                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_datetime", formatter.format(new Date()));
                 appended.putIfAbsent("audit_level", "INFO");
                 String text = serializer.apply(appended);
                 this.logger.info(text);
@@ -122,7 +124,7 @@ public class MethodLogger<T extends GraphLogLevel> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
                 Map<String, String> appended = Maps.newHashMap(data);
                 appended.putIfAbsent("audit_target", targetClazz.getName());
-                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_datetime", formatter.format(new Date()));
                 appended.putIfAbsent("audit_level", "INFO");
                 String text = serializer.apply(appended);
                 this.logger.debug(text);
@@ -133,7 +135,7 @@ public class MethodLogger<T extends GraphLogLevel> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
                 Map<String, String> appended = Maps.newHashMap(data);
                 appended.putIfAbsent("audit_target", targetClazz.getName());
-                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_datetime", formatter.format(new Date()));
                 appended.putIfAbsent("audit_level", "INFO");
                 String text = serializer.apply(appended);
                 this.logger.error(text);
@@ -144,7 +146,7 @@ public class MethodLogger<T extends GraphLogLevel> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
                 Map<String, String> appended = Maps.newHashMap(data);
                 appended.putIfAbsent("audit_target", targetClazz.getName());
-                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_datetime", formatter.format(new Date()));
                 appended.putIfAbsent("audit level", "INFO");
                 String text = serializer.apply(appended);
                 this.logger.warn(text);
@@ -155,7 +157,7 @@ public class MethodLogger<T extends GraphLogLevel> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
                 Map<String, String> appended = Maps.newHashMap(data);
                 appended.putIfAbsent("audit_target", targetClazz.getName());
-                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_datetime", formatter.format(new Date()));
                 appended.putIfAbsent("audit_level", "INFO");
                 String text = serializer.apply(appended);
                 this.logger.trace(text);
@@ -171,7 +173,7 @@ public class MethodLogger<T extends GraphLogLevel> {
                 Map<String, String> data = (Map<String, String>)(args[0]);
                 Map<String, String> appended = Maps.newHashMap(data);
                 appended.putIfAbsent("audit_target", targetClazz.getName());
-                appended.putIfAbsent("audit_datetime", new Date().toString());
+                appended.putIfAbsent("audit_datetime", formatter.format(new Date()));
                 appended.putIfAbsent("audit_level", "INFO");
                 String text = serializer.apply(appended);
                 this.logger.info(text);
