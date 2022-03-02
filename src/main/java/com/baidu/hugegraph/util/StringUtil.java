@@ -24,7 +24,7 @@ public final class StringUtil {
     public static Chars[] splitToCharsArray(String text, String delimiter) {
         E.checkArgument(delimiter.length() > 0,
                         "The delimiter can't be empty");
-        Chars[] buffer = new Chars[text.length()];
+        Chars[] buffer = new Chars[text.length() + 1];
         int count = Chars.split(text, delimiter, buffer);
         if (count == buffer.length) {
             return buffer;
@@ -37,7 +37,7 @@ public final class StringUtil {
     public static String[] split(String text, String delimiter) {
         E.checkArgument(delimiter.length() > 0,
                         "The delimiter can't be empty");
-        Chars[] buffer = new Chars[text.length()];
+        Chars[] buffer = new Chars[text.length() + 1];
         int count = Chars.split(text, delimiter, buffer);
         String[] result = new String[count];
         for (int i = 0; i < count; i++) {
@@ -53,7 +53,7 @@ public final class StringUtil {
         private final int end;
 
         public Chars(char[] chars, int start, int end) {
-            E.checkArgument(0 < start && start < chars.length || start == 0,
+            E.checkArgument(0 <= start && start <= chars.length,
                             "Invalid start parameter %s", start);
             E.checkArgument(start <= end && end <= chars.length,
                             "Invalid end parameter %s", end);
@@ -116,7 +116,7 @@ public final class StringUtil {
                  from = to + delimiter.length()) {
                 buffer[count++] = new Chars(chars, from, to);
             }
-            if (from < text.length()) {
+            if (from <= text.length()) {
                 buffer[count++] = new Chars(chars, from, text.length());
             }
             return count;
