@@ -37,7 +37,7 @@ public class StringUtilTest {
                                  StringUtil.split("1, 2, 3", ", "));
         Assert.assertArrayEquals(new String[]{"1", "1", "1"},
                                  StringUtil.split("1 1 1", " "));
-        Assert.assertArrayEquals(new String[]{"", "", ""},
+        Assert.assertArrayEquals(new String[]{"", "", "", ""},
                                  StringUtil.split("111", "1"));
 
         Assert.assertEquals(guavaSplit("123", " "),
@@ -68,8 +68,11 @@ public class StringUtilTest {
                                  StringUtil.splitToCharsArray("1, 2, 3", ", "));
         Assert.assertArrayEquals(Chars.of("1", "1", "1"),
                                  StringUtil.splitToCharsArray("1 1 1", " "));
-        Assert.assertArrayEquals(Chars.of("", "", ""),
+        Assert.assertArrayEquals(Chars.of("", "", "", ""),
                                  StringUtil.splitToCharsArray("111", "1"));
+
+        Assert.assertArrayEquals(Chars.of("", "2", "3", "", "", ""),
+                                 StringUtil.splitToCharsArray("1213111", "1"));
 
         Assert.assertArrayEquals(new Chars[]{Chars.of("123")},
                                  StringUtil.splitToCharsArray("123", " "));
