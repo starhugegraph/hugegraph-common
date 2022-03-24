@@ -261,7 +261,8 @@ public abstract class AbstractRestClient implements RestClient {
             return pair.getLeft().put(pair.getRight());
         });
         // If check status failed, throw client exception.
-        checkStatus(response, Response.Status.OK, Response.Status.ACCEPTED);
+        checkStatus(response, Response.Status.OK, Response.Status.ACCEPTED,
+                    Response.Status.NO_CONTENT);
         return new RestResult(response);
     }
 
