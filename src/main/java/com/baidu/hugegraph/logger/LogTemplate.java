@@ -222,20 +222,20 @@ public enum LogTemplate {
         "DELETE_USER_GROUP",
         "[AUDIT] User group {} has been deleted by {}"),
 
-    /**** Tenant related logs ****/
-    /* Tenant management */
-    UPDATE_TENANT_CONFIG(
-        "UPDATE_TENANT_CONFIG",
-        "[AUDIT] Tenant {} config has been updated"),
-    CREATE_TENANT(
-        "CREATE_TENANT",
-        "[AUDIT] Tenant {} has been created by {}"),
-    UPDATE_TENANT(
-        "UPDATE_TENANT",
-        "[AUDIT] Tenant {} has been updated by {}"),
-    REMOVE_TENANT(
-        "REMOVE_TENANT",
-        "[AUDIT] Tenant {} has been removed by {}"),
+    /**** GRAPHSPACE related logs ****/
+    /* GRAPHSPACE management */
+    UPDATE_GRAPHSPACE_CONFIG(
+        "UPDATE_GRAPHSPACE_CONFIG",
+        "[AUDIT] GRAPHSPACE {} config has been updated"),
+    CREATE_GRAPHSPACE(
+        "CREATE_GRAPHSPACE",
+        "[AUDIT] GRAPHSPACE {} has been created by {}"),
+    UPDATE_GRAPHSPACE(
+        "UPDATE_GRAPHSPACE",
+        "[AUDIT] GRAPHSPACE {} has been updated by {}"),
+    REMOVE_GRAPHSPACE(
+        "REMOVE_GRAPHSPACE",
+        "[AUDIT] GRAPHSPACE {} has been removed by {}"),
 
     /**** Cluster related logs ****/
     SYNC_CLUSTER_CONFIG(

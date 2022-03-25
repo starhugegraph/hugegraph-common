@@ -359,7 +359,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.EXPORT_ROLE.name(),
-            "roleId", roleId,
+            "role_id", roleId,
             "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
@@ -374,7 +374,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_PASSWORD.name(),
-            "userId", userId);
+            "audit_user", userId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -388,7 +388,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.RESET_PASSWORD.name(),
-            "userId", userId);
+            "audit_user", userId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -403,7 +403,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_LOGIN.name(),
-            "userId", userId,
+            "audit_user", userId,
             "deviceInfo", deviceInfo,
             "path", path);
         infoLogger
@@ -419,7 +419,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.DELETE_USER.name(),
-            "userId", userId);
+            "audit_user", userId);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -485,7 +485,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.USER_ACCESS_DENIED.name(),
-            "userId", userId,
+            "audit_user", userId,
             "access", access,
             "resource", resourceObject.toString());
             
@@ -502,6 +502,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.USER.name(),
             ACTION_PATTERN, LogTemplate.GENERATE_AUTH_KEY.name(),
+            "audit_user", userId,
             "userId", userId);
         infoLogger
         .logDataMap(dataMap);
@@ -565,7 +566,7 @@ public class AuditLogger {
         Map<String, String> dataMap
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
-            ACTION_PATTERN, LogTemplate.UPDATE_TENANT_CONFIG.name(),
+            ACTION_PATTERN, LogTemplate.UPDATE_GRAPHSPACE_CONFIG.name(),
             "graphSpace", graphSpace);
         infoLogger
         .logDataMap(dataMap);
@@ -580,7 +581,7 @@ public class AuditLogger {
         Map<String, String> dataMap
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
-            ACTION_PATTERN, LogTemplate.CREATE_TENANT.name(),
+            ACTION_PATTERN, LogTemplate.CREATE_GRAPHSPACE.name(),
             "graphSpace", graphSpace,
             "audit_user", creatorId);
         infoLogger
@@ -596,7 +597,7 @@ public class AuditLogger {
         Map<String, String> dataMap
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
-            ACTION_PATTERN, LogTemplate.UPDATE_TENANT.name(),
+            ACTION_PATTERN, LogTemplate.UPDATE_GRAPHSPACE.name(),
             "graphSpace", graphSpace,
             "audit_user", executorId);
         infoLogger
@@ -612,7 +613,7 @@ public class AuditLogger {
         Map<String, String> dataMap
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
-            ACTION_PATTERN, LogTemplate.REMOVE_TENANT.name(),
+            ACTION_PATTERN, LogTemplate.REMOVE_GRAPHSPACE.name(),
             "graphSpace", graphSpace,
             "audit_user", executorId);
         infoLogger
