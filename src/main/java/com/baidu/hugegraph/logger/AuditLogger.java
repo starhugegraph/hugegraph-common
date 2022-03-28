@@ -126,7 +126,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.CREATE_GRAPH.name(),
-            "audit_graph_space", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_graph", graphName,
             "audit_user", executorId);
         infoLogger
@@ -145,7 +145,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_GRAPH.name(),
-            "audit_graph_space", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_graph", graphName,
             "audit_user", executorId);
         infoLogger
@@ -164,7 +164,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.MANAGE_GRAPH.name(),
-            "audit_graph_space", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_graph", graphName,
             "audit_user", executorId);
         infoLogger
@@ -183,7 +183,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.CLEAR_GRAPH.name(),
-            "audit_graph_space", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_graph", graphName,
             "audit_user", executorId);
         infoLogger
@@ -202,7 +202,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH.name(),
             ACTION_PATTERN, LogTemplate.REMOVE_GRAPH.name(),
-            "audit_graph_space", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_graph", graphName,
             "audit_user", executorId);
         infoLogger
@@ -567,7 +567,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_GRAPHSPACE_CONFIG.name(),
-            "graphSpace", graphSpace);
+            "audit_graphspace", graphSpace);
         infoLogger
         .logDataMap(dataMap);
     }
@@ -582,7 +582,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.CREATE_GRAPHSPACE.name(),
-            "graphSpace", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_user", creatorId);
         infoLogger
         .logDataMap(dataMap);
@@ -598,7 +598,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.UPDATE_GRAPHSPACE.name(),
-            "graphSpace", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
@@ -614,7 +614,7 @@ public class AuditLogger {
         = ImmutableMap.of(
             OPERATION_PATTERN, AuditOperationEnum.GRAPH_SPACE.name(),
             ACTION_PATTERN, LogTemplate.REMOVE_GRAPHSPACE.name(),
-            "graphSpace", graphSpace,
+            "audit_graphspace", graphSpace,
             "audit_user", executorId);
         infoLogger
         .logDataMap(dataMap);
