@@ -51,4 +51,6 @@ public interface RestClient {
     public RestResult delete(String path, String id);
 
     public void close();
+    void checkApiVersion(String minVersion, String message);
+    boolean apiVersionLt(String minVersion);
 }
